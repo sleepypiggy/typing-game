@@ -9,7 +9,7 @@ This application might be used by people who want to improve their typing skills
 This project interests me because I want to make some sort of game, but I don't want it to be too complicated like recreating Undertale. I originally wanted to make an aim trainer game like AimLabs, but Phase 1 of this project makes it way too unforgiving since the whole point of an aim trainer is to click things on the screen using your mouse, which requires a GUI and is practically impossible for a console-based application. On the other hand, a typing game works much better in the console and I also have an interest in it since typing is used absolutely everywhere, from searching Google to coding this project and writing this description.
 
 ## User Stories:
-- As a user, I want to be able to increase the number of rounds in the game so multiple can exist at a time separately.
+- As a user, I want to be able to add a quote or a phrase I like to a list so I can read them over, or play them again later.
 - As a user, I want to be able to view a list of the past rounds and their respective stats.
 - As a user, I want to be able to immediately start a new round once the current round is over.
 - As a user, I want to be able to adjust the parameters of each round to my liking (e.g. the amount of time each round lasts).
