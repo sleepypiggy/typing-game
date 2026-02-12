@@ -1,5 +1,10 @@
 package model;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Random;
 
 // The Round class represents a single round in in the typing game.
@@ -7,11 +12,13 @@ import java.util.Random;
 // whether that is from the menu or at the end of a round.
 
 public class Round {
+    private final Random random;
+    private BufferedReader reader;
     private String phrasesPath;
     private long startTime;
     private long endTime;
 
-    private String userText;
+    private StringBuilder userText;
     private String actualText;
     private int numberOfLines = 0;
     private int randomLineIndex;
@@ -23,7 +30,15 @@ public class Round {
     private int numberOfCharacters;
 
     public Round(String phrasesPath, Random random) {
-
+        this.random = random;
+        this.phrasesPath = phrasesPath;
+        setNumberOfLines();
+        setRandomLineIndex(numberOfLines);
+        setActualText(randomLineIndex);
+        setNumberOfCharacters(actualText);
+        // start tracking time as soon as round starts
+        // if user presses "enter" (indicating they are done typing),
+        // then note down the time.
     }
 
     // REQUIRES: the number of lines of the text file in the location phrasesPath > 0.
@@ -31,14 +46,25 @@ public class Round {
     // EFFECTS: sets the number of lines in text file to be used for random
     //          selection
     public void setNumberOfLines() {
-
+        try {
+            reader = new BufferedReader(new FileReader(phrasesPath));
+            while (reader.readLine() != null) {
+                numberOfLines++;
+            }
+            reader.close();
+        } catch (IOException e) {
+            System.out.println("File not found. ");
+            e.printStackTrace();
+        }
+        System.out.println(numberOfLines + " lines. ");
     }
 
     // REQUIRES: numberOfLines > 0
     // MODIFIES: this
     // EFFECTS: generates a random number from 0 to but not including numberOfLines
     public void setRandomLineIndex(int numberOfLines) {
-
+        randomLineIndex = random.nextInt(numberOfLines);
+        System.out.println("index number " + randomLineIndex);
     }
 
     // REQUIRES: randomLineIndex >= 0 && randomLineIndex <= numberOfLines - 1
@@ -46,7 +72,18 @@ public class Round {
     // EFFECTS: using the randomly generated index, selects the corresponding
     //          text from the file and sets it as actualText
     public void setActualText(int randomLineIndex) {
-
+        try {
+            reader = new BufferedReader(new FileReader(phrasesPath));
+            for (int i = 0; i < randomLineIndex; i++) {
+                reader.readLine();
+            }
+            actualText = reader.readLine();
+            reader.close();
+        } catch (IOException e) {
+            System.out.println("File not found. ");
+            e.printStackTrace();
+        }
+        System.out.println(actualText); // debugging
     }
 
     // REQUIRES: actualText.length() > 0;
@@ -54,7 +91,7 @@ public class Round {
     // EFFECTS: sets the number of characters the phrase of this round is based on the 
     //          random phrase selected.
     public void setNumberOfCharacters(String actualText) {
-
+        numberOfCharacters = actualText.length();
     }
 
     // REQURIES: actualText.length() > 0;
@@ -62,7 +99,21 @@ public class Round {
     // EFFECTS: calculates the accuracy when comparing the user's typed phrase
     //          versus the actual phrase and sets it as accuracy.
     public void calculateAccuracy(String actualText, StringBuilder userText) {
+        double wrong = 0.0;
 
+        while (userText.length() < actualText.length()) {
+            userText.append("⨘");
+        }
+
+        for (int i = 0; i < actualText.length(); i++) {
+            if (userText.charAt(i) != actualText.charAt(i)) {
+                wrong++;
+            }
+        }
+        double percentageWrong = wrong / actualText.length() * 100.0;
+        double accuracy = 100.0 - percentageWrong;
+        System.out.printf(".2%f", accuracy);
+        this.accuracy = accuracy;
     }
 
     // MODIFIES: this
@@ -87,41 +138,41 @@ public class Round {
     }
 
     public String getActualText() {
-        return ""; //stub
+        return this.actualText;
     }
 
-    public String getUserText() {
-        return ""; //stub
+    public StringBuilder getUserText() {
+        return userText;
     }
 
     public double getWordsPerMinute() {
-        return 0.0; //stub
+        return wordsPerMinute;
     }
 
     public double getAccuracy() {
-        return 0.0; //stub
+        return accuracy;
     }
 
     public double getTimeTaken() {
-        return 0.0; //stub
+        return timeTaken;
     }
 
     public int getNumberOfLines() {
-        return 0; //stub
+        return numberOfLines;
     }
 
     public int getRandomLineIndex() {
-        return 0; //stub
+        return randomLineIndex;
     }
 
     public int getNumberOfCharacters() {
-        return 0; //stub
+        return numberOfCharacters;
     }
     
     // for testing purposes
     // MODIFIES: this
     // EFFECTS: sets this.userText to userText. Only used for testing purposes.
-    public void setUserText(String userText) {
-
+    public void setUserText(StringBuilder userText) {
+        this.userText = userText;
     }
 }
