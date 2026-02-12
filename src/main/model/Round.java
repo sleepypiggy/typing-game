@@ -6,6 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Random;
+import java.text.DecimalFormat;
+
 
 // The Round class represents a single round in in the typing game.
 // A new Round is created each time the user wants to "play a new game",
@@ -14,6 +16,7 @@ import java.util.Random;
 public class Round {
     private final Random random;
     private BufferedReader reader;
+    private DecimalFormat decimalFormat;
     private String phrasesPath;
     private long startTime;
     private long endTime;
@@ -32,6 +35,7 @@ public class Round {
     public Round(String phrasesPath, Random random) {
         this.random = random;
         this.phrasesPath = phrasesPath;
+        decimalFormat = new DecimalFormat("#.##");
         setNumberOfLines();
         setRandomLineIndex(numberOfLines);
         setActualText(randomLineIndex);
@@ -112,8 +116,7 @@ public class Round {
         }
         double percentageWrong = wrong / actualText.length() * 100.0;
         double accuracy = 100.0 - percentageWrong;
-        System.out.printf(".2%f", accuracy);
-        this.accuracy = accuracy;
+        this.accuracy = Double.valueOf(decimalFormat.format(accuracy));
     }
 
     // MODIFIES: this
