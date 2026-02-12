@@ -11,7 +11,7 @@ public class Round {
     private long startTime;
     private long endTime;
 
-    private StringBuilder userText;
+    private String userText;
     private String actualText;
     private int numberOfLines = 0;
     private int randomLineIndex;
@@ -65,10 +65,15 @@ public class Round {
 
     }
 
-    // REQUIRES:
+    // MODIFIES: this
+    // EFFECTS: sets startTime to the current time when the round starts.
+    public void startRound() {
+
+    }
+
     // MODIFIES: this
     // EFFECTS: sets the amount of time taken for the user to complete the round by
-    //          keeping track of the startTime and endTime.
+    //          keeping track of the startTime and then setTimeTaken() is called.
     public void setTimeTaken() {
 
     }
@@ -107,5 +112,16 @@ public class Round {
 
     public int getRandomLineIndex() {
         return 0; //stub
+    }
+
+    public int getNumberOfCharacters() {
+        return 0; //stub
+    }
+    
+    // for testing purposes
+    // MODIFIES: this
+    // EFFECTS: sets this.userText to userText. Only used for testing purposes.
+    public void setUserText(String userText) {
+
     }
 }
