@@ -22,7 +22,7 @@ public class Round {
     private long endTime;
 
     private StringBuilder userText;
-    private String actualText;
+    private StringBuilder actualText;
     private int numberOfLines = 0;
     private int randomLineIndex;
 
@@ -81,7 +81,7 @@ public class Round {
             for (int i = 0; i < randomLineIndex; i++) {
                 reader.readLine();
             }
-            actualText = reader.readLine();
+            actualText = new StringBuilder(reader.readLine());
             reader.close();
         } catch (IOException e) {
             System.out.println("File not found. ");
@@ -94,7 +94,7 @@ public class Round {
     // MODIFIES: this
     // EFFECTS: sets the number of characters the phrase of this round is based on the 
     //          random phrase selected.
-    public void setNumberOfCharacters(String actualText) {
+    public void setNumberOfCharacters(StringBuilder actualText) {
         numberOfCharacters = actualText.length();
     }
 
@@ -102,11 +102,15 @@ public class Round {
     // MODIFIES: this
     // EFFECTS: calculates the accuracy when comparing the user's typed phrase
     //          versus the actual phrase and sets it as accuracy.
-    public void calculateAccuracy(String actualText, StringBuilder userText) {
+    public void calculateAccuracy(StringBuilder actualText, StringBuilder userText) {
         double wrong = 0.0;
 
         while (userText.length() < actualText.length()) {
             userText.append("⨘");
+        }
+
+        while (userText.length() > actualText.length()) {
+            actualText.append("⨘");
         }
 
         for (int i = 0; i < actualText.length(); i++) {
@@ -140,7 +144,7 @@ public class Round {
 
     }
 
-    public String getActualText() {
+    public StringBuilder getActualText() {
         return this.actualText;
     }
 
@@ -172,9 +176,8 @@ public class Round {
         return numberOfCharacters;
     }
     
-    // for testing purposes
     // MODIFIES: this
-    // EFFECTS: sets this.userText to userText. Only used for testing purposes.
+    // EFFECTS: sets this.userText to userText.
     public void setUserText(StringBuilder userText) {
         this.userText = userText;
     }
