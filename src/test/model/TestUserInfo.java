@@ -36,7 +36,7 @@ public class TestUserInfo {
 
     @Test
     void testAddSavedPhrase() {
-        ArrayList<String> testList = new ArrayList<>();
+        ArrayList<StringBuilder> testList = new ArrayList<>();
 
         userInfo.addSavedPhrase(testRound1.getActualText());
         testList.add(testRound1.getActualText());
@@ -46,22 +46,22 @@ public class TestUserInfo {
 
     @Test
     void testAddMultipleSavedPhrase() {
-        ArrayList<String> testList = new ArrayList<>();
+        ArrayList<StringBuilder> testList = new ArrayList<>();
 
         userInfo.addSavedPhrase(testRound1.getActualText());
         testList.add(testRound1.getActualText());
         assertEquals(1, userInfo.getNumberOfSavedPhrases());
         assertEquals(testList, userInfo.getSavedPhrases());
-        // !!! seeded differently?
+
         userInfo.addSavedPhrase(testRound2.getActualText());
         testList.add(testRound2.getActualText());
         assertEquals(2, userInfo.getNumberOfSavedPhrases());
-        assertEquals(testList, userInfo.getNumberOfSavedPhrases());
+        assertEquals(testList, userInfo.getSavedPhrases());
     }
 
     @Test
     void testAddSavedPhraseDuplicate() {
-        ArrayList<String> testList = new ArrayList<>();
+        ArrayList<StringBuilder> testList = new ArrayList<>();
 
         userInfo.addSavedPhrase(testRound1.getActualText());
         testList.add(testRound1.getActualText());

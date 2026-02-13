@@ -11,7 +11,7 @@ import exceptions.DuplicatePhraseException;
 public class UserInfo {
 
     ArrayList<Round> pastRounds;
-    ArrayList<String> savedPhrases;
+    ArrayList<StringBuilder> savedPhrases;
     
     public UserInfo() {
         this.pastRounds = new ArrayList<>();
@@ -21,7 +21,7 @@ public class UserInfo {
     // MODIFIES: this
     // EFFECTS: adds phrase to the list of saved phrases, savedPhrases. If phrase is 
     //          already in savedPhrases, don't add it and notify user.
-    public void addSavedPhrase(String phrase) {
+    public void addSavedPhrase(StringBuilder phrase) {
         try {
             if (!this.savedPhrases.contains(phrase)) {
                 this.savedPhrases.add(phrase);
@@ -39,7 +39,7 @@ public class UserInfo {
         this.pastRounds.add(round);
     }
 
-    public ArrayList<String> getSavedPhrases() {
+    public ArrayList<StringBuilder> getSavedPhrases() {
         return savedPhrases;
     }
 
