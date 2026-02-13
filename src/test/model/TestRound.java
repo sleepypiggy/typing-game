@@ -13,10 +13,14 @@ public class TestRound {
     private final int seed = 1;
     private String testPhrases = "data/testPhrases.txt";
     private Round testRound;
+    private Round testTimerRound;
+    private FakeNanotimeClock fakeClock;
     
     @BeforeEach
     void setUp() {
         testRound = new Round(testPhrases, new Random(seed), new RoundTimer());
+        fakeClock = new FakeNanotimeClock();
+        testTimerRound = new Round(testPhrases, new Random(seed), fakeClock);
     }
 
     @Test
@@ -69,5 +73,16 @@ public class TestRound {
     @Test
     void testCalculateWordsPerMinute() {
         
+    }
+
+    @Test 
+    void testGetElapsedTime() {
+        fakeClock.setTime(1000000000);
+        testTimerRound.start();
+        fakeClock.setTime(1500000000);
+        // time is set in nanoseconds but getElapsedTime() returns it in seconds
+
+        assertEquals(0.5, testTimerRound.getElapsedTime());
+
     }
 }
