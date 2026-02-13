@@ -179,11 +179,16 @@ public class Round {
         this.userText = userText;
     }
 
+    // MODIFIES: this
+    // EFFECTS: sets startTime to the current time in the system as determined by clock.
     public void start() {
         startTime = clock.nanotimeClock();
     }
 
-    public double getElapsedTime() {
-        return (clock.nanotimeClock() - startTime) / 1000000000.0;
+    // MODIFIES: this
+    // EFFECTS: sets timeTaken to (clock.nanotimeClock() - startTime) / 1000000000.0, getting
+    //          the amount of time between when start() is called and getElapsedTime() is called.
+    public void getElapsedTime() {
+        this.timeTaken = (clock.nanotimeClock() - startTime) / 1000000000.0;
     }
 }
