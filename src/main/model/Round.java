@@ -58,14 +58,12 @@ public class Round {
             System.out.println("File not found. ");
             e.printStackTrace();
         }
-        System.out.println(numberOfLines + " lines. ");
     }
 
     // MODIFIES: this
     // EFFECTS: generates a random number from 0 to but not including numberOfLines
     public void setRandomLineIndex(int numberOfLines) {
         randomLineIndex = random.nextInt(numberOfLines);
-        System.out.println("index number " + randomLineIndex); 
     }
 
     // REQUIRES: randomLineIndex >= 0 && randomLineIndex <= numberOfLines - 1
@@ -84,7 +82,6 @@ public class Round {
             System.out.println("File not found. ");
             e.printStackTrace();
         }
-        System.out.println(actualText); // debugging
     }
 
     // REQUIRES: actualText.length() > 0;
@@ -190,5 +187,6 @@ public class Round {
     //          the amount of time between when start() is called and getElapsedTime() is called.
     public void getElapsedTime() {
         this.timeTaken = (clock.nanotimeClock() - startTime) / 1000000000.0;
+        this.timeTaken = Double.valueOf(decimalFormat.format(this.timeTaken));
     }
 }

@@ -82,7 +82,8 @@ public class TestRound {
         fakeClock.setTime(1500000000);
         // time is set in nanoseconds but getElapsedTime() returns it in seconds
 
-        assertEquals(0.5, testTimerRound.getElapsedTime());
+        testTimerRound.getElapsedTime();
+        assertEquals(0.5, testTimerRound.getTimeTaken());
 
     }
 }
