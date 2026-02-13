@@ -16,7 +16,7 @@ public class TestRound {
     
     @BeforeEach
     void setUp() {
-        testRound = new Round(testPhrases, new Random(seed));
+        testRound = new Round(testPhrases, new Random(seed), new RoundTimer());
     }
 
     @Test
@@ -28,13 +28,15 @@ public class TestRound {
     void testSetRandomLineIndex() {
         // A seeded random will return the same pattern of random numbers every time, at least
         // in this scenario tested.
-        // In this case, with a seed of 5, it will return 5 every single time the test is called.
+        // In this case, with a seed of 1, it will return 5 every single time the test is called.
         assertEquals(5, testRound.getRandomLineIndex());
     }
 
     @Test
     void testSetActualText() {
-        assertEquals("Index 5", testRound.getActualText());
+        // assertEquals keeps reference based equality testing for StringBuilder
+        // so we have to convert to String.
+        assertEquals("Index 5", testRound.getActualText().toString());
     }
 
     @Test
@@ -44,19 +46,28 @@ public class TestRound {
 
     @Test
     void testCalculateAccuracy100Percent() {
-        testRound.setUserText("Index 5");
+        testRound.setUserText(new StringBuilder("Index 5"));
+        testRound.calculateAccuracy(testRound.getActualText(), testRound.getUserText());
         assertEquals(100.00, testRound.getAccuracy());
     }
 
     @Test
     void testCalculateAccuracy0Percent() {
-        testRound.setUserText("abcdefg");
+        testRound.setUserText(new StringBuilder("abcdefg"));
+        testRound.calculateAccuracy(testRound.getActualText(), testRound.getUserText());
         assertEquals(0.00, testRound.getAccuracy());
+    }
+    
+    @Test
+    void testCalculateAccuracyRandomPercent() {
+        testRound.setUserText(new StringBuilder("Inaaa 4"));
+        testRound.calculateAccuracy(testRound.getActualText(), testRound.getUserText());
+        assertEquals(42.86, testRound.getAccuracy());
     }
 
     // this test depends on time so I'll fill it in later
     @Test
     void testCalculateWordsPerMinute() {
         
-    }  
+    }
 }
