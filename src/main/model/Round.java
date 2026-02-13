@@ -18,8 +18,8 @@ public class Round {
     private BufferedReader reader;
     private DecimalFormat decimalFormat;
     private String phrasesPath;
-    private long startTime;
-    private long endTime;
+    private NanotimeClock clock;
+    private double startTime;
 
     private StringBuilder userText;
     private StringBuilder actualText;
@@ -32,17 +32,15 @@ public class Round {
     private double timeTaken;
     private int numberOfCharacters;
 
-    public Round(String phrasesPath, Random random) {
+    public Round(String phrasesPath, Random random, NanotimeClock clock) {
         this.random = random;
         this.phrasesPath = phrasesPath;
+        this.clock = clock;
         decimalFormat = new DecimalFormat("#.##");
         setNumberOfLines();
         setRandomLineIndex(numberOfLines);
         setActualText(randomLineIndex);
         setNumberOfCharacters(actualText);
-        // start tracking time as soon as round starts
-        // if user presses "enter" (indicating they are done typing),
-        // then note down the time.
     }
 
     // REQUIRES: the number of lines of the text file in the location phrasesPath > 0.
@@ -63,12 +61,11 @@ public class Round {
         System.out.println(numberOfLines + " lines. ");
     }
 
-    // REQUIRES: numberOfLines > 0
     // MODIFIES: this
     // EFFECTS: generates a random number from 0 to but not including numberOfLines
     public void setRandomLineIndex(int numberOfLines) {
         randomLineIndex = random.nextInt(numberOfLines);
-        System.out.println("index number " + randomLineIndex);
+        System.out.println("index number " + randomLineIndex); 
     }
 
     // REQUIRES: randomLineIndex >= 0 && randomLineIndex <= numberOfLines - 1
@@ -180,5 +177,13 @@ public class Round {
     // EFFECTS: sets this.userText to userText.
     public void setUserText(StringBuilder userText) {
         this.userText = userText;
+    }
+
+    public void start() {
+        startTime = clock.nanotimeClock();
+    }
+
+    public double getElapsedTime() {
+        return (clock.nanotimeClock() - startTime) / 1000000000.0;
     }
 }
