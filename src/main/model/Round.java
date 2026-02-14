@@ -31,6 +31,7 @@ public class Round {
     private double accuracy;
     private double timeTaken;
     private int numberOfCharacters;
+    private int numberOfUserTypedCharacters;
 
     public Round(String phrasesPath, Random random, NanotimeClock clock) {
         this.random = random;
@@ -92,6 +93,13 @@ public class Round {
         numberOfCharacters = actualText.length();
     }
 
+    // REQUIRES: userText.length() > 0;
+    // MODIFIES: this
+    // EFFECTS: sets the number of characters the user typed this round.
+    public void setNumberOfUserTypedCharacters(StringBuilder userText) {
+        this.numberOfUserTypedCharacters = userText.length();
+    }
+
     // REQURIES: actualText.length() > 0;
     // MODIFIES: this
     // EFFECTS: calculates the accuracy when comparing the user's typed phrase
@@ -117,25 +125,34 @@ public class Round {
         this.accuracy = Double.valueOf(decimalFormat.format(accuracy));
     }
 
-    // MODIFIES: this
-    // EFFECTS: sets startTime to the current time when the round starts.
-    public void startRound() {
-
-    }
-
-    // MODIFIES: this
-    // EFFECTS: sets the amount of time taken for the user to complete the round by
-    //          keeping track of the startTime and then setTimeTaken() is called.
-    public void setTimeTaken() {
-
-    }
-
-    // REQUIRES: numberOfCharacters > 0;
+    // REQUIRES: numberOfCharacters > 0 && this.timeTaken > 0;
     // MODIFIES: this
     // EFFECTS: calculate the words types per minute by doing (numberOfCharacters /
     // 5) * (60 / timeTaken)
-    public void calculateWordsPerMinute() {
+    public void setWordsPerMinute() {
+        this.wordsPerMinute = (numberOfUserTypedCharacters / 5.0) * (60.0 / this.timeTaken);
+        this.wordsPerMinute = Double.valueOf(decimalFormat.format(this.wordsPerMinute));
+    }
 
+        
+    // MODIFIES: this
+    // EFFECTS: sets this.userText to userText.
+    public void setUserText(StringBuilder userText) {
+        this.userText = userText;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: sets startTime to the current time in the system as determined by clock.
+    public void start() {
+        startTime = clock.nanotimeClock();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: sets timeTaken to (clock.nanotimeClock() - startTime) / 1000000000.0, getting
+    //          the amount of time between when start() is called and getElapsedTime() is called.
+    public void setElapsedTime() {
+        this.timeTaken = (clock.nanotimeClock() - startTime) / 1000000000.0;
+        this.timeTaken = Double.valueOf(decimalFormat.format(this.timeTaken));
     }
 
     public StringBuilder getActualText() {
@@ -169,24 +186,8 @@ public class Round {
     public int getNumberOfCharacters() {
         return numberOfCharacters;
     }
-    
-    // MODIFIES: this
-    // EFFECTS: sets this.userText to userText.
-    public void setUserText(StringBuilder userText) {
-        this.userText = userText;
-    }
 
-    // MODIFIES: this
-    // EFFECTS: sets startTime to the current time in the system as determined by clock.
-    public void start() {
-        startTime = clock.nanotimeClock();
-    }
-
-    // MODIFIES: this
-    // EFFECTS: sets timeTaken to (clock.nanotimeClock() - startTime) / 1000000000.0, getting
-    //          the amount of time between when start() is called and getElapsedTime() is called.
-    public void getElapsedTime() {
-        this.timeTaken = (clock.nanotimeClock() - startTime) / 1000000000.0;
-        this.timeTaken = Double.valueOf(decimalFormat.format(this.timeTaken));
+    public int getNumberOfUserTypedCharacters() {
+        return numberOfUserTypedCharacters;
     }
 }
