@@ -72,7 +72,18 @@ public class TestRound {
     // this test depends on time so I'll fill it in later
     @Test
     void testCalculateWordsPerMinute() {
-        
+        fakeClock.setTime(1000000000);
+        testTimerRound.start();
+        fakeClock.setTime(2100000000); // 1.1 seconds
+        testTimerRound.setElapsedTime();
+        testTimerRound.setUserText(new StringBuilder("1234567"));
+        assertEquals(7, testTimerRound.getUserText().length());
+        testTimerRound.setNumberOfUserTypedCharacters(testTimerRound.getUserText());
+        assertEquals(7, testTimerRound.getNumberOfUserTypedCharacters());
+        testTimerRound.setWordsPerMinute();
+
+        assertEquals(1.1, testTimerRound.getTimeTaken());
+        assertEquals(76.36, testTimerRound.getWordsPerMinute());
     }
 
     @Test 
@@ -82,7 +93,7 @@ public class TestRound {
         fakeClock.setTime(1500000000);
         // time is set in nanoseconds but getElapsedTime() returns it in seconds
 
-        testTimerRound.getElapsedTime();
+        testTimerRound.setElapsedTime();
         assertEquals(0.5, testTimerRound.getTimeTaken());
 
     }
