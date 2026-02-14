@@ -3,6 +3,7 @@ package model;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Random;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -27,44 +28,44 @@ public class TestUserInfo {
     
 
     @BeforeEach
-    void setUp() {
-        testRound1 = new Round(testPhrases, new Random(seed1));
-        testRound2 = new Round(testPhrases, new Random(seed2));
-        testRound3 = new Round(testPhrases, new Random(seed3));
+    void setUp() throws IOException {
+        testRound1 = new Round(testPhrases, new Random(seed1), new RoundTimer());
+        testRound2 = new Round(testPhrases, new Random(seed2), new RoundTimer());
+        testRound3 = new Round(testPhrases, new Random(seed3), new RoundTimer());
         userInfo = new UserInfo();
     }
 
     @Test
     void testAddSavedPhrase() {
-        ArrayList<StringBuilder> testList = new ArrayList<>();
+        ArrayList<String> testList = new ArrayList<>();
 
         userInfo.addSavedPhrase(testRound1.getActualText());
-        testList.add(testRound1.getActualText());
+        testList.add(testRound1.getActualText().toString());
         assertEquals(1, userInfo.getNumberOfSavedPhrases());
         assertEquals(testList, userInfo.getSavedPhrases());
     }
 
     @Test
     void testAddMultipleSavedPhrase() {
-        ArrayList<StringBuilder> testList = new ArrayList<>();
+        ArrayList<String> testList = new ArrayList<>();
 
         userInfo.addSavedPhrase(testRound1.getActualText());
-        testList.add(testRound1.getActualText());
+        testList.add(testRound1.getActualText().toString());
         assertEquals(1, userInfo.getNumberOfSavedPhrases());
         assertEquals(testList, userInfo.getSavedPhrases());
 
         userInfo.addSavedPhrase(testRound2.getActualText());
-        testList.add(testRound2.getActualText());
+        testList.add(testRound2.getActualText().toString());
         assertEquals(2, userInfo.getNumberOfSavedPhrases());
         assertEquals(testList, userInfo.getSavedPhrases());
     }
 
     @Test
     void testAddSavedPhraseDuplicate() {
-        ArrayList<StringBuilder> testList = new ArrayList<>();
+        ArrayList<String> testList = new ArrayList<>();
 
         userInfo.addSavedPhrase(testRound1.getActualText());
-        testList.add(testRound1.getActualText());
+        testList.add(testRound1.getActualText().toString());
         assertEquals(1, userInfo.getNumberOfSavedPhrases());
         assertEquals(testList, userInfo.getSavedPhrases());
 
