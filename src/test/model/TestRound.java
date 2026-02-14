@@ -69,6 +69,20 @@ public class TestRound {
         assertEquals(42.86, testRound.getAccuracy());
     }
 
+    @Test
+    void testCalculateAccuracyUserTextLongerThanActualText() {
+        testRound.setUserText(new StringBuilder("Index 5aaa"));
+        testRound.calculateAccuracy(testRound.getActualText(), testRound.getUserText());
+        assertEquals(70.00, testRound.getAccuracy());
+    }
+
+    @Test
+    void testCalculateAccuracyActualTextLongerThanUserText() {
+        testRound.setUserText(new StringBuilder("Index"));
+        testRound.calculateAccuracy(testRound.getActualText(), testRound.getUserText());
+        assertEquals(71.43, testRound.getAccuracy());
+    }
+
     // this test depends on time so I'll fill it in later
     @Test
     void testCalculateWordsPerMinute() {
@@ -95,6 +109,5 @@ public class TestRound {
 
         testTimerRound.setElapsedTime();
         assertEquals(0.5, testTimerRound.getTimeTaken());
-
     }
 }
