@@ -3,10 +3,12 @@ package model;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.Random;
 
 public class TestRound {
@@ -18,9 +20,18 @@ public class TestRound {
     
     @BeforeEach
     void setUp() {
-        testRound = new Round(testPhrases, new Random(seed), new RoundTimer());
         fakeClock = new FakeNanotimeClock();
-        testTimerRound = new Round(testPhrases, new Random(seed), fakeClock);
+        try {
+            testRound = new Round(testPhrases, new Random(seed), new RoundTimer());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            testTimerRound = new Round(testPhrases, new Random(seed), fakeClock);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -109,5 +120,12 @@ public class TestRound {
 
         testTimerRound.setElapsedTime();
         assertEquals(0.5, testTimerRound.getTimeTaken());
+    }
+
+    @Test
+    void testFileNotFound() {
+        assertThrows(IOException.class, () ->  {
+            new Round("data/phrase.txt", new Random(seed), fakeClock);
+        });
     }
 }

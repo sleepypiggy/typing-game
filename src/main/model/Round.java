@@ -33,7 +33,7 @@ public class Round {
     private int numberOfCharacters;
     private int numberOfUserTypedCharacters;
 
-    public Round(String phrasesPath, Random random, NanotimeClock clock) {
+    public Round(String phrasesPath, Random random, NanotimeClock clock) throws IOException {
         this.random = random;
         this.phrasesPath = phrasesPath;
         this.clock = clock;
@@ -48,17 +48,12 @@ public class Round {
     // MODIFIES: this
     // EFFECTS: sets the number of lines in text file to be used for random
     //          selection
-    public void setNumberOfLines() {
-        try {
-            reader = new BufferedReader(new FileReader(phrasesPath));
-            while (reader.readLine() != null) {
-                numberOfLines++;
-            }
-            reader.close();
-        } catch (IOException e) {
-            System.out.println("File not found. ");
-            e.printStackTrace();
+    public void setNumberOfLines() throws IOException {
+        reader = new BufferedReader(new FileReader(phrasesPath));
+        while (reader.readLine() != null) {
+            numberOfLines++;
         }
+        reader.close();
     }
 
     // MODIFIES: this
@@ -71,18 +66,13 @@ public class Round {
     // MODIFIES: this
     // EFFECTS: using the randomly generated index, selects the corresponding
     //          text from the file and sets it as actualText
-    public void setActualText(int randomLineIndex) {
-        try {
-            reader = new BufferedReader(new FileReader(phrasesPath));
-            for (int i = 0; i < randomLineIndex; i++) {
-                reader.readLine();
-            }
-            actualText = new StringBuilder(reader.readLine());
-            reader.close();
-        } catch (IOException e) {
-            System.out.println("File not found. ");
-            e.printStackTrace();
+    public void setActualText(int randomLineIndex) throws IOException {
+        reader = new BufferedReader(new FileReader(phrasesPath));
+        for (int i = 0; i < randomLineIndex; i++) {
+            reader.readLine();
         }
+        actualText = new StringBuilder(reader.readLine());
+        reader.close();
     }
 
     // REQUIRES: actualText.length() > 0;
