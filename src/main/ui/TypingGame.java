@@ -46,12 +46,14 @@ public class TypingGame {
             newRound();
             printStartGameOptions();
             userChoice = scanner.nextLine();
+            System.out.println();
             // Using a switch statement makes it easier to read but makes the logic more complicated.
             if (userChoice.equalsIgnoreCase("S")) {
                 playRound();
                 while (true) {
                     printAfterRoundOptions();
                     afterRoundUserChoice = scanner.nextLine();
+                    System.out.println();
                     if (afterRoundUserChoice.equalsIgnoreCase("P")) {
                         break;
                     } else if (afterRoundUserChoice.equalsIgnoreCase("S")) {
@@ -90,9 +92,12 @@ public class TypingGame {
         if (userInfo.getSavedPhrases().isEmpty()) {
             System.out.println("No saved phrases. ");
         } else {
+            System.out.println("Saved phrases: ");
+            System.out.println("-------------- ");
             for (int i = 0; i <= userInfo.getNumberOfSavedPhrases() - 1; i++) {
-                System.out.println(" - " + userInfo.getSavedPhrases().get(i));
+                System.out.println("- " + userInfo.getSavedPhrases().get(i));
             }
+            System.out.println();
         }
     }
 
@@ -116,7 +121,9 @@ public class TypingGame {
         System.out.print("\r> ");
         userInput = new StringBuilder(scanner.nextLine());
         round.setElapsedTime();
+        System.out.println();
         afterRoundStats(userInput);
+        System.out.println();
     }
 
     // EFFECTS: displays the stats for the current round after it is over.
@@ -142,7 +149,9 @@ public class TypingGame {
 
     // EFFECTS: displays the options the user has in the console at the beginning of the game.
     public void printStartGameOptions() {
+        System.out.println("---------------");
         System.out.println("| Typing Game |");
+        System.out.println("---------------");
         System.out.println("- Enter 'S' to start a round. ");
         System.out.println("- Enter 'E' to exit program. ");
         System.out.print("> ");
