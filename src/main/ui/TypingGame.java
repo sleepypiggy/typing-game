@@ -37,50 +37,123 @@ public class TypingGame {
 
     // MODIFIES: this
     // EFFECTS: structures the main game loop of each section of the game.
+    @SuppressWarnings("methodlength")
     public void mainGameLoop() {
-        
+        while (gameRunning) {
+            newRound();
+            printStartGameOptions();
+            userChoice = scanner.nextLine();
+
+            if (userChoice.equalsIgnoreCase("S")) {
+                playRound();
+                while (true) {
+                    printAfterRoundOptions();
+                    afterRoundUserChoice = scanner.nextLine();
+                    // no switch statement since I'm already using equalsIgnoreCase() :(
+                    if (afterRoundUserChoice.equalsIgnoreCase("P")) {
+                        break;
+                    } else if (afterRoundUserChoice.equalsIgnoreCase("S")) {
+                        savePhrase();
+                    } else if (afterRoundUserChoice.equalsIgnoreCase("V")) {
+                        viewSavedPhrases();
+                    } else if (afterRoundUserChoice.equalsIgnoreCase("E")) {
+                        System.out.println("Goodbye. ");
+                        gameRunning = false;
+                        break;
+                    } else {
+                        System.out.println("Invalid input. Try again. ");
+                    }
+                }
+            } else if (userChoice.equalsIgnoreCase("E")) {
+                System.out.println("Goodbye. ");
+                break;
+            } else {
+                System.out.println("That was not a valid input. Try again. ");
+                printStartGameOptions();
+            }
+        }
     }
 
     // EFFECTS: adds the current round's text to savedPhrases.
     public void savePhrase() {
-        
+        userInfo.addSavedPhrase(round.getActualText());
+        System.out.println("Phrase saved! ");
     }
 
     // EFFECTS: prints all the user's saved phrases. Prints "No saved phrases. " if there are none.
     public void viewSavedPhrases() {
-        
+        if (userInfo.getSavedPhrases().isEmpty()) {
+            System.out.println("No saved phrases. ");
+        } else {
+            for (int i = 0; i <= userInfo.getNumberOfSavedPhrases() - 1; i++) {
+                System.out.println(" - " + userInfo.getSavedPhrases().get(i));
+            }
+        }
     }
 
     // EFFECTS: creates a new round.
     public void newRound() {
-        
+        try {
+            round = new Round(phrasesPath, random, roundTimer);
+        } catch (IOException e) {
+            System.out.println("File not found. ");
+            e.printStackTrace();
+        }
     }
 
     // EFFECTS: starts the main game loop or allows the user to exit the program.
     public void playRound() {
-        
+        StringBuilder userInput;
+        System.out.println("Type this phrase as quickly and as accurately as you can: ");
+        System.out.println(round.getActualText());
+        countdown(3);
+        round.startRoundTime();
+        System.out.print("\r> ");
+        userInput = new StringBuilder(scanner.nextLine());
+        round.setElapsedTime();
+        afterRoundStats(userInput);
     }
 
     // EFFECTS: displays the stats for the current round after it is over.
     public void afterRoundStats(StringBuilder userInput) {
-        
+        System.out.println("Time taken: " + round.getTimeTaken() + " seconds");
+        round.setUserText(userInput);
+        round.calculateAccuracy(round.getActualText(), round.getUserText());
+        System.out.println("Accuracy: " + round.getAccuracy() + "%");
+        round.setNumberOfUserTypedCharacters(userInput);
+        round.setWordsPerMinute();
+        System.out.println(round.getWordsPerMinute() + "wpm");
     }
 
     // EFFECTS: displays the options the user has in the console after the current round is over.
     public void printAfterRoundOptions() {
-        
+        System.out.println("This round is complete. What would you like to do next? ");
+        System.out.println("- Enter 'P' to start a new round. ");
+        System.out.println("- Enter 'S' to save phrase. ");
+        System.out.println("- Enter 'V' to view saved phrases. ");
+        System.out.println("- Enter 'E' to exit program. ");
+        System.out.print("> ");
     }
 
     // EFFECTS: displays the options the user has in the console at the beginning of the game.
     public void printStartGameOptions() {
-        
+        System.out.println("| Typing Game |");
+        System.out.println("- Enter 'S' to start a round. ");
+        System.out.println("- Enter 'E' to exit program. ");
+        System.out.print("> ");
     }
 
     // REQUIRES: duration > 0;
     // EFFECTS: creates a countdown of duration seconds. Used to give the player a few
     //          seconds to read the phrase they have to type.
     public void countdown(int duration) {
-        
+        long counterStartTime = System.nanoTime();
+        long durationInNanoseconds = (long) duration * 1000000000;
+        long endTime = counterStartTime + durationInNanoseconds;
+        while (System.nanoTime() < endTime) {
+            long remainingNanoseconds = endTime - System.nanoTime();
+            long remainingSeconds = (int) (remainingNanoseconds / 1000000000);
+            System.out.print("\r" + (remainingSeconds + 1));
+        }
     }
-
 }
