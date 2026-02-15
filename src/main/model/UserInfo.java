@@ -21,16 +21,10 @@ public class UserInfo {
 
     // MODIFIES: this
     // EFFECTS: adds phrase to the list of saved phrases, savedPhrases. If phrase is 
-    //          already in savedPhrases, don't add it and notify user.
+    //          already in savedPhrases, do nothing.
     public void addSavedPhrase(StringBuilder phrase) {
-        try {
-            if (!this.savedPhrases.contains(phrase.toString())) {
-                this.savedPhrases.add(phrase.toString());
-            } else {
-                throw new DuplicatePhraseException();
-            }
-        } catch (DuplicatePhraseException e) {
-            System.out.println("You already saved this phrase. ");
+        if (!this.savedPhrases.contains(phrase.toString())) {
+            this.savedPhrases.add(phrase.toString());
         }
     }
 

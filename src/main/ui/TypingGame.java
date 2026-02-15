@@ -76,8 +76,12 @@ public class TypingGame {
 
     // EFFECTS: adds the current round's text to savedPhrases.
     public void savePhrase() {
-        userInfo.addSavedPhrase(round.getActualText());
-        System.out.println("Phrase saved! ");
+        if (!userInfo.getSavedPhrases().contains(round.getActualText().toString())) {
+            userInfo.addSavedPhrase(round.getActualText());
+            System.out.println("Phrase saved! ");
+        } else {
+            System.out.println("You already saved this phrase. ");
+        }
     }
 
     // EFFECTS: prints all the user's saved phrases. Prints "No saved phrases. " if there are none.
