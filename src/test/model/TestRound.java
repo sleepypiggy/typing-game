@@ -1,7 +1,5 @@
 package model;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -98,7 +96,7 @@ public class TestRound {
     @Test
     void testCalculateWordsPerMinute() {
         fakeClock.setTime(1000000000);
-        testTimerRound.start();
+        testTimerRound.startRoundTime();
         fakeClock.setTime(2100000000); // 1.1 seconds
         testTimerRound.setElapsedTime();
         testTimerRound.setUserText(new StringBuilder("1234567"));
@@ -114,7 +112,7 @@ public class TestRound {
     @Test 
     void testGetElapsedTime() {
         fakeClock.setTime(1000000000);
-        testTimerRound.start();
+        testTimerRound.startRoundTime();
         fakeClock.setTime(1500000000);
         // time is set in nanoseconds but getElapsedTime() returns it in seconds
 

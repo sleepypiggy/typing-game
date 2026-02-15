@@ -1,14 +1,10 @@
 package model;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.util.Random;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,10 +16,8 @@ public class TestUserInfo {
 
     private Round testRound1;
     private Round testRound2;
-    private Round testRound3;
     private final int seed1 = 1;
     private final int seed2 = 2;
-    private final int seed3 = 3;
 
     
 
@@ -31,7 +25,6 @@ public class TestUserInfo {
     void setUp() throws IOException {
         testRound1 = new Round(testPhrases, new Random(seed1), new RoundTimer());
         testRound2 = new Round(testPhrases, new Random(seed2), new RoundTimer());
-        testRound3 = new Round(testPhrases, new Random(seed3), new RoundTimer());
         userInfo = new UserInfo();
     }
 
@@ -69,7 +62,6 @@ public class TestUserInfo {
         assertEquals(1, userInfo.getNumberOfSavedPhrases());
         assertEquals(testList, userInfo.getSavedPhrases());
 
-        // !!! test try catch?
         userInfo.addSavedPhrase(testRound1.getActualText());
         assertEquals(1, userInfo.getNumberOfSavedPhrases());
         assertEquals(testList, userInfo.getSavedPhrases());

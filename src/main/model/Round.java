@@ -1,15 +1,14 @@
 package model;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Random;
+import java.util.Scanner;
 import java.text.DecimalFormat;
 
 
-// The Round class represents a single round in in the typing game.
+// The Round class represents a single round in the typing game.
 // A new Round is created each time the user wants to "play a new game",
 // whether that is from the menu or at the end of a round.
 
@@ -133,7 +132,7 @@ public class Round {
 
     // MODIFIES: this
     // EFFECTS: sets startTime to the current time in the system as determined by clock.
-    public void start() {
+    public void startRoundTime() {
         startTime = clock.nanotimeClock();
     }
 

@@ -5,8 +5,9 @@ import exceptions.DuplicatePhraseException;
 
 // The UserInfo class represents all the information of the user,
 // including the past rounds that the user has played (where each round
-// stores individual information), as well as saved phrases that the user
-// replay.
+// stores individual information), although this part isn't implemented yet as 
+// I want to figure out what to do with it, as well as saved phrases that the user\
+// can look back on.
 
 public class UserInfo {
 
