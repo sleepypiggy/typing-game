@@ -21,6 +21,8 @@ public class TypingGame {
     private RoundTimer roundTimer;
     private UserInfo userInfo;
     private boolean gameRunning;
+
+    // technically these two don't need to be fields
     private String userChoice;
     private String afterRoundUserChoice;
 
@@ -38,18 +40,18 @@ public class TypingGame {
     // MODIFIES: this
     // EFFECTS: structures the main game loop of each section of the game.
     @SuppressWarnings("methodlength")
+    // I don't think I can condense this method anymore, let alone by 7 more lines.
     public void mainGameLoop() {
         while (gameRunning) {
             newRound();
             printStartGameOptions();
             userChoice = scanner.nextLine();
-
+            // Using a switch statement makes it easier to read but makes the logic more complicated.
             if (userChoice.equalsIgnoreCase("S")) {
                 playRound();
                 while (true) {
                     printAfterRoundOptions();
                     afterRoundUserChoice = scanner.nextLine();
-                    // no switch statement since I'm already using equalsIgnoreCase() :(
                     if (afterRoundUserChoice.equalsIgnoreCase("P")) {
                         break;
                     } else if (afterRoundUserChoice.equalsIgnoreCase("S")) {
@@ -69,7 +71,6 @@ public class TypingGame {
                 break;
             } else {
                 System.out.println("That was not a valid input. Try again. ");
-                printStartGameOptions();
             }
         }
     }

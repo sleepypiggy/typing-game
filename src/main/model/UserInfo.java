@@ -1,7 +1,6 @@
 package model;
 
 import java.util.ArrayList;
-import exceptions.DuplicatePhraseException;
 
 // The UserInfo class represents all the information of the user,
 // including the past rounds that the user has played (where each round
