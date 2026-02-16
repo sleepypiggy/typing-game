@@ -9,7 +9,9 @@ import java.text.DecimalFormat;
 
 // The Round class represents a single round in the typing game.
 // A new Round is created each time the user wants to "play a new game",
-// whether that is from the menu or at the end of a round.
+// whether that is from the menu or at the end of a round. Each round has it's
+// own information like the phrase the user must type, and the stats of the user
+// the once the round is completed.
 
 public class Round {
     private final Random random;
