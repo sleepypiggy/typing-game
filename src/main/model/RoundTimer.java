@@ -6,6 +6,8 @@ package model;
 // SYSTEM TIME. A FAKE CLOCK, FakeNanotimeClock IS USED FOR TEST WHICH DOES HAVE 100% COVERAGE.
 
 public class RoundTimer implements NanotimeClock {
+
+    // EFFECTS: returns the current time of the system.
     public long nanotimeClock() {
         return System.nanoTime();
     }

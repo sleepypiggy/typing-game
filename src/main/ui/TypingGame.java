@@ -77,6 +77,7 @@ public class TypingGame {
         }
     }
 
+    // MODIFIES: userInfo
     // EFFECTS: adds the current round's text to savedPhrases.
     public void savePhrase() {
         if (!userInfo.getSavedPhrases().contains(round.getActualText().toString())) {
@@ -111,6 +112,7 @@ public class TypingGame {
         }
     }
 
+    // MODIFIES: round
     // EFFECTS: starts the main game loop or allows the user to exit the program.
     public void playRound() {
         StringBuilder userInput;
@@ -126,6 +128,7 @@ public class TypingGame {
         System.out.println();
     }
 
+    // MODIFIES: round
     // EFFECTS: displays the stats for the current round after it is over.
     public void afterRoundStats(StringBuilder userInput) {
         System.out.println("Time taken: " + round.getTimeTaken() + " seconds");
