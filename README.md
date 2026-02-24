@@ -15,3 +15,5 @@ This project interests me because I want to make some sort of game, but I don't 
 - As a user, I want to be able to immediately start a new round once the current round is over.
 - As a user, I want to be able to view a list of the past rounds and their respective stats.
 - As a user, I want to be able to adjust the parameters of each round to my liking (e.g. the amount of time each round lasts).
+- As a user, I want to be be able to save the list of my favorite phrases to a file if I choose to do so.
+- As a user, I want to be be able to load the list of my favorite phrases from file if I choose to do so.
