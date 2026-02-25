@@ -1,6 +1,7 @@
 package persistance;
 
 import model.UserInfo;
+import persistence.JsonReader;
 
 import org.junit.jupiter.api.Test;
 

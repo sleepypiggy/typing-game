@@ -43,7 +43,7 @@ public class TestJsonWriter extends TestJson {
     }
 
     @Test
-    void testWriterGeneralWorkroom() {
+    void testWriterUserInfo() {
         try {
             UserInfo userInfo = new UserInfo();
             userInfo.addSavedPhrase(new StringBuilder("test phrase 1"));
