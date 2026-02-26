@@ -1,5 +1,10 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import persistence.Writable;
+
 import java.util.ArrayList;
 
 // The UserInfo class represents all the information of the user,
@@ -8,7 +13,7 @@ import java.util.ArrayList;
 // I want to figure out what to do with it), as well as saved phrases that the user
 // can look back on.
 
-public class UserInfo {
+public class UserInfo implements Writable {
 
     ArrayList<Round> pastRounds;
     ArrayList<String> savedPhrases;
@@ -31,6 +36,31 @@ public class UserInfo {
     // EFFECTS: adds round to the list of past rounds played, pastRounds.
     public void addPastRound(Round round) {
         this.pastRounds.add(round);
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("phrases", phrasesToJson());
+        return json;        
+    }
+
+    // EFFECTS: returns phrase as a JSON object.
+    public JSONObject phraseToJson(String phrase) {
+        JSONObject json = new JSONObject();
+        json.put("phrase", phrase);
+        return json;
+    }
+
+    // EFFECTS: returns things in this user info as a JSON array.
+    private JSONArray phrasesToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (String s : savedPhrases) {
+            jsonArray.put(phraseToJson(s));
+        }
+
+        return jsonArray;
     }
 
     public ArrayList<String> getSavedPhrases() {
