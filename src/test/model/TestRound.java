@@ -92,7 +92,6 @@ public class TestRound {
         assertEquals(71.43, testRound.getAccuracy());
     }
 
-    // this test depends on time so I'll fill it in later
     @Test
     void testCalculateWordsPerMinute() {
         fakeClock.setTime(1000000000);
