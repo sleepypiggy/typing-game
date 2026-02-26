@@ -1,8 +1,11 @@
 package ui;
 
 import java.util.Scanner;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Random;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
 import model.Round;
 import model.RoundTimer;
@@ -14,6 +17,7 @@ import model.UserInfo;
 // to start a game, quit, or save a phrase.
 
 public class TypingGame {
+    private static final String JSON_STORE = "./data/userInfo.json";
 
     private Scanner scanner;
     private Random random;
@@ -21,6 +25,8 @@ public class TypingGame {
     private RoundTimer roundTimer;
     private UserInfo userInfo;
     private boolean gameRunning;
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
 
     // technically these two don't need to be fields
     private String userChoice;
@@ -34,6 +40,8 @@ public class TypingGame {
         random = new Random();
         roundTimer = new RoundTimer();
         gameRunning = true;
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
         mainGameLoop();
     }
 
@@ -60,6 +68,10 @@ public class TypingGame {
                         savePhrase();
                     } else if (afterRoundUserChoice.equalsIgnoreCase("V")) {
                         viewSavedPhrases();
+                    } else if (afterRoundUserChoice.equalsIgnoreCase("D")) {
+                        saveUserInfo();
+                    } else if (afterRoundUserChoice.equalsIgnoreCase("L")) {
+                        loadUserInfo();
                     } else if (afterRoundUserChoice.equalsIgnoreCase("E")) {
                         System.out.println("Goodbye. ");
                         gameRunning = false;
@@ -146,6 +158,8 @@ public class TypingGame {
         System.out.println("- Enter 'P' to start a new round. ");
         System.out.println("- Enter 'S' to save phrase. ");
         System.out.println("- Enter 'V' to view saved phrases. ");
+        System.out.println("- Enter 'D' to download (save to file) saved phrases. ");
+        System.out.println("- Enter 'L' to load saved phrases from file. ");
         System.out.println("- Enter 'E' to exit program. ");
         System.out.print("> ");
     }
@@ -171,6 +185,29 @@ public class TypingGame {
             long remainingNanoseconds = endTime - System.nanoTime();
             long remainingSeconds = (int) (remainingNanoseconds / 1000000000);
             System.out.print("\r" + (remainingSeconds + 1));
+        }
+    }
+
+    // EFFECTS: saves user info (only saved phrases currently) to file
+    private void saveUserInfo() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(userInfo);
+            jsonWriter.close();
+            System.out.println("Saved phrases to" + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads user info (only saved phrases currently) from file
+    private void loadUserInfo() {
+        try {
+            userInfo = jsonReader.read();
+            System.out.println("Loaded phrases from " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
         }
     }
 }
