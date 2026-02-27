@@ -1,5 +1,10 @@
 package ui;
 
+// TODO: - add specification to constructors
+//       - remove phrases from favorites
+//       - label favorites by index (line number)
+//       - let user add custom quotes to .txt file.
+
 import java.util.Scanner;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -188,6 +193,9 @@ public class TypingGame {
         }
     }
 
+    // Referenced from the JsonSerialization Demo
+    // https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
+
     // EFFECTS: saves user info (only saved phrases currently) to file
     private void saveUserInfo() {
         try {
@@ -200,6 +208,9 @@ public class TypingGame {
         }
     }
 
+    // Referenced from the JsonSerialization Demo
+    // https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
+    
     // MODIFIES: this
     // EFFECTS: loads user info (only saved phrases currently) from file
     private void loadUserInfo() {

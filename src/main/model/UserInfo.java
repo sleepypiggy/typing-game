@@ -38,6 +38,9 @@ public class UserInfo implements Writable {
         this.pastRounds.add(round);
     }
 
+    // Referenced from the JsonSerialization Demo
+    // https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
+
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
@@ -45,12 +48,18 @@ public class UserInfo implements Writable {
         return json;        
     }
 
+    // Referenced from the JsonSerialization Demo
+    // https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
+
     // EFFECTS: returns phrase as a JSON object.
     public JSONObject phraseToJson(String phrase) {
         JSONObject json = new JSONObject();
         json.put("phrase", phrase);
         return json;
     }
+
+    // Referenced from the JsonSerialization Demo
+    // https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
 
     // EFFECTS: returns things in this user info as a JSON array.
     private JSONArray phrasesToJson() {

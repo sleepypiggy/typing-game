@@ -10,7 +10,10 @@ import java.util.stream.Stream;
 
 import org.json.*;
 
-// Represents a reader that reads workroom from JSON data stored in file
+// Referenced from the JsonSerialization Demo
+// https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
+
+// Represents a reader that reads user info from JSON data stored in file
 public class JsonReader {
     private String source;
 

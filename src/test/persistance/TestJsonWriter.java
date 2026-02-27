@@ -1,6 +1,5 @@
 package persistance;
 
-import model.Round;
 import model.UserInfo;
 import persistence.JsonReader;
 import persistence.JsonWriter;
@@ -11,6 +10,9 @@ import java.io.IOException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+// Referenced from the JsonSerialization Demo
+// https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
 
 public class TestJsonWriter extends TestJson {
 
