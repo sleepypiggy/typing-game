@@ -33,6 +33,9 @@ public class Round {
     private int numberOfCharacters;
     private int numberOfUserTypedCharacters;
 
+    
+    // EFFECTS: initializes all things a round needs, and then runs the methods needed to 
+    //          set the important details for the respective round.
     public Round(String phrasesPath, Random random, NanotimeClock clock) throws IOException {
         this.random = random;
         this.phrasesPath = phrasesPath;

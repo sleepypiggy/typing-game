@@ -17,7 +17,8 @@ public class UserInfo implements Writable {
 
     ArrayList<Round> pastRounds;
     ArrayList<String> savedPhrases;
-    
+
+    // EFFECTS: creates an empty list to store past rounds (currently unused) and saved phrases.  
     public UserInfo() {
         this.pastRounds = new ArrayList<>();
         this.savedPhrases = new ArrayList<>();

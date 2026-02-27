@@ -6,9 +6,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
+
 import java.io.IOException;
 import java.util.Random;
 
+@ExcludeFromJacocoGeneratedReport
 public class TestRound {
     private final int seed = 1;
     private String testPhrases = "data/testPhrases.txt";

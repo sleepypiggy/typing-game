@@ -1,5 +1,8 @@
 package model;
 
+import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
+
+@ExcludeFromJacocoGeneratedReport
 public class FakeNanotimeClock implements NanotimeClock {
     private long time;
 

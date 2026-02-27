@@ -1,11 +1,14 @@
 package ui;
 
 // TODO: - add specification to constructors
-//       - remove phrases from favorites
-//       - label favorites by index (line number)
-//       - let user add custom quotes to .txt file.
+// TODO: - add ways to remove phrases from favorites
+// TODO: - label favorites by index (line number)
+// TODO: - let user add custom quotes to .txt file.
 
 import java.util.Scanner;
+
+import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Random;
@@ -21,6 +24,7 @@ import model.UserInfo;
 // main UI elements. This is the class that gets input from the user, like if they want
 // to start a game, quit, or save a phrase.
 
+@ExcludeFromJacocoGeneratedReport
 public class TypingGame {
     private static final String JSON_STORE = "./data/userInfo.json";
 
@@ -39,6 +43,8 @@ public class TypingGame {
 
     private String phrasesPath = "data/phrases.txt";
 
+    // EFFECTS: initializes all required objects for the game to run and store information, and starts
+    //          the main game loop.
     public TypingGame() {
         userInfo = new UserInfo();
         scanner = new Scanner(System.in);
