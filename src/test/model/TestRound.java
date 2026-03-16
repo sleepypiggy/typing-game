@@ -1,6 +1,7 @@
 package model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -17,13 +18,15 @@ public class TestRound {
     private String testPhrases = "data/testPhrases.txt";
     private Round testRound;
     private Round testTimerRound;
+    private RoundTimer realClock;
     private FakeNanotimeClock fakeClock;
     
     @BeforeEach
     void setUp() {
+        realClock = new RoundTimer();
         fakeClock = new FakeNanotimeClock();
         try {
-            testRound = new Round(testPhrases, new Random(seed), new RoundTimer());
+            testRound = new Round(testPhrases, new Random(seed), realClock);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -127,5 +130,12 @@ public class TestRound {
         assertThrows(IOException.class, () ->  {
             new Round("data/phrase.txt", new Random(seed), fakeClock);
         });
+    }
+
+    @Test
+    void testRoundTimer() {
+        long first = realClock.nanotimeClock();
+        long second = realClock.nanotimeClock();
+        assertTrue(second > first);
     }
 }
