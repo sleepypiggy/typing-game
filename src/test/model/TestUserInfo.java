@@ -42,6 +42,21 @@ public class TestUserInfo {
     }
 
     @Test
+    void testRemoveSavedPhrase() {
+        ArrayList<String> testList = new ArrayList<>();
+
+        userInfo.addSavedPhrase(testRound1.getActualText());
+        testList.add(testRound1.getActualText().toString());
+        assertEquals(1, userInfo.getNumberOfSavedPhrases());
+        assertEquals(testList, userInfo.getSavedPhrases());
+
+        userInfo.removeSavedPhrase(1);
+        testList.remove(testRound1.getActualText().toString());
+        assertEquals(0, userInfo.getNumberOfSavedPhrases());
+        assertEquals(testList, userInfo.getSavedPhrases());
+    }
+
+    @Test
     void testAddMultipleSavedPhrase() {
         ArrayList<String> testList = new ArrayList<>();
 
