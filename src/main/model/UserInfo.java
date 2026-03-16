@@ -34,6 +34,12 @@ public class UserInfo implements Writable {
     }
 
     // MODIFIES: this
+    // EFFECTS: removes the phrase from the given phrase number (-1 to account for zero-based indexing).
+    public void removeSavedPhrase(int phraseNumber) {
+        
+    }
+
+    // MODIFIES: this
     // EFFECTS: adds round to the list of past rounds played, pastRounds.
     public void addPastRound(Round round) {
         this.pastRounds.add(round);
