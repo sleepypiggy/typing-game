@@ -36,7 +36,7 @@ public class UserInfo implements Writable {
     // MODIFIES: this
     // EFFECTS: removes the phrase from the given phrase number (-1 to account for zero-based indexing).
     public void removeSavedPhrase(int phraseNumber) {
-        
+        this.savedPhrases.remove(phraseNumber - 1);
     }
 
     // MODIFIES: this
