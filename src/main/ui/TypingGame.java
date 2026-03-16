@@ -4,6 +4,7 @@ package ui;
 // TODO: - add ways to remove phrases from favorites
 // TODO: - label favorites by index (line number)
 // TODO: - let user add custom quotes to .txt file.
+// TODO: - add code coverage test to RoundTimer class.
 
 import java.util.Scanner;
 
@@ -36,6 +37,8 @@ public class TypingGame {
     private boolean gameRunning;
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
+
+    private GameWindow gameWindow;
 
     // technically these two don't need to be fields
     private String userChoice;
@@ -79,6 +82,8 @@ public class TypingGame {
                         savePhrase();
                     } else if (afterRoundUserChoice.equalsIgnoreCase("V")) {
                         viewSavedPhrases();
+                    } else if (afterRoundUserChoice.equalsIgnoreCase("R")) {
+                        removePhrase();
                     } else if (afterRoundUserChoice.equalsIgnoreCase("D")) {
                         saveUserInfo();
                     } else if (afterRoundUserChoice.equalsIgnoreCase("L")) {
@@ -111,6 +116,25 @@ public class TypingGame {
         }
     }
 
+    // MODIFIES: userInfo
+    // EFFECTS: removes the corresponding phrase from given phrase number from savedPhrases.
+    public void removePhrase() {
+        if (userInfo.getSavedPhrases().isEmpty()) {
+            System.out.println("There are no phrases to remove. ");
+        } else {
+            System.out.print("Which phrase number would you like to remove?: ");
+            int phraseNumber = scanner.nextInt();
+            if (phraseNumber < 1 || phraseNumber > userInfo.getNumberOfSavedPhrases()) {
+            System.out.println("This phrase number does not exist. ");
+            scanner.nextLine();
+        } else {
+            userInfo.removeSavedPhrase(phraseNumber);
+            System.out.println("Phrase removed! ");
+            scanner.nextLine();
+        }
+        } 
+    }
+
     // EFFECTS: prints all the user's saved phrases. Prints "No saved phrases. " if there are none.
     public void viewSavedPhrases() {
         if (userInfo.getSavedPhrases().isEmpty()) {
@@ -129,6 +153,7 @@ public class TypingGame {
     public void newRound() {
         try {
             round = new Round(phrasesPath, random, roundTimer);
+            gameWindow = new GameWindow(round, userInfo);
         } catch (IOException e) {
             System.out.println("File not found. ");
             e.printStackTrace();
@@ -168,6 +193,7 @@ public class TypingGame {
         System.out.println("This round is complete. What would you like to do next? ");
         System.out.println("- Enter 'P' to start a new round. ");
         System.out.println("- Enter 'S' to save phrase. ");
+        System.out.println("- Enter 'R' to remove phrase. ");
         System.out.println("- Enter 'V' to view saved phrases. ");
         System.out.println("- Enter 'D' to download (save to file) saved phrases. ");
         System.out.println("- Enter 'L' to load saved phrases from file. ");
