@@ -22,57 +22,134 @@ import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 
 @ExcludeFromJacocoGeneratedReport
 public class EndUI extends JPanel {
-    
+    private TypingGame typingGame;
+    private Round currentRound;
+    private UserInfo userInfo;
+
+    private JButton addPhraseButton;
+    private JButton removePhraseButton;
+    private JButton viewPhraseButton;
+    private JButton saveButton;
+    private JButton loadButton;
+    private JButton exitButton;
+
+    private JPanel buttonLayout;
+    private JPanel buttonContainer;
+
     // EFFECTS: initializes the typingGame, the current round, and all the user information. Also sets the layout
     //          of this, and initializes the buttons as well as their layouts.
     public EndUI(TypingGame typingGame, Round currentRound, UserInfo userInfo) {
-        
+        this.typingGame = typingGame;
+        this.currentRound = currentRound;
+        this.userInfo = userInfo;
+        setLayout(new BorderLayout());
+        initButtons();
+        initButtonLayout();
     }
 
     // MODIFIES: this
     // EFFECTS: creates all the buttons and calls the methods required to initialize their respective logic.
     public void initButtons() {
-        
+        addPhraseButton = new JButton("Add phrase to favorites");
+        removePhraseButton = new JButton("Remove a phrase");
+        viewPhraseButton = new JButton("View phrases");
+        saveButton = new JButton("Download phrases");
+        loadButton = new JButton("Load phrases");
+        exitButton = new JButton("Exit");
+
+        addPhraseButtonLogic();
+        removePhraseButtonLogic();
+        viewPhraseButtonLogic();
+        saveButtonLogic();
+        loadButtonLogic();
+        exitButtonLogic();
     }
 
     // MODIFIES: this
     // EFFECTS: creates the button layout managers and adds the buttons to them.
     public void initButtonLayout() {
-        
+        buttonLayout = new JPanel(new GridLayout(2, 3, 10, 10));
+        buttonContainer = new JPanel(new GridBagLayout());
+
+        buttonLayout.add(addPhraseButton);
+        buttonLayout.add(removePhraseButton);
+        buttonLayout.add(viewPhraseButton);
+        buttonLayout.add(saveButton);
+        buttonLayout.add(loadButton);
+        buttonLayout.add(exitButton);
+
+        buttonContainer.add(buttonLayout);
+        add(buttonContainer, BorderLayout.SOUTH);
     }
 
-    // EFFECTS: adds phrase of current round to list on addPhraseButton click.
+    // EFFECTS: handles what the addPhraseButton does on click.
     public void addPhraseButtonLogic() {
-        
+        addPhraseButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                typingGame.savePhrase();
+            }
+        });
     }
 
-    // EFFECTS: removes phrase from list on removePhraseButton click.
+    // EFFECTS: handles what the removePhraseButton does on click.
     public void removePhraseButtonLogic() {
-        
+        removePhraseButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                typingGame.removePhrase();
+            }
+        });
     }
 
-    // EFFECTS: displays list of phrases on viewPhraseButton click.
+    // EFFECTS: handles what the viewPhraseButton does on click.
     public void viewPhraseButtonLogic() {
-        
+        viewPhraseButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showSavedPhrases();
+            }
+        });
     }
 
-    // EFFECTS: downloads list of phrases on saveButton click.
+    // EFFECTS: handles what the saveButton does on click.
     public void saveButtonLogic() {
-        
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                typingGame.saveUserInfo();
+            }
+        });
     }
 
-    // EFFECTS: loads list of saved phrases on loadButton click.
+    // EFFECTS: handles what the loadButton does on click.
     public void loadButtonLogic() {
-        
+        loadButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                typingGame.loadUserInfo();
+            }
+        });
     }
 
-    // EFFECTS: exits program on exitButton click.
+    // EFFECTS: handles what the exitButton does on click.
     public void exitButtonLogic() {
-        
+        exitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
     }
 
     // EFFECTS: displays the saved phrases in a pop-up window.
     public void showSavedPhrases() {
-
+        StringBuilder savedPhrases = new StringBuilder();
+        for (String s : userInfo.getSavedPhrases()) {
+            savedPhrases.append("- " + s + "\n");
+        }
+        JOptionPane.showMessageDialog(this, savedPhrases.toString(), "Saved Phrases", JOptionPane.INFORMATION_MESSAGE);
     }
+
+
 }
