@@ -1,10 +1,7 @@
 package ui;
 
-// TODO: - add specification to constructors
 // TODO: - add ways to remove phrases from favorites
-// TODO: - label favorites by index (line number)
 // TODO: - let user add custom quotes to .txt file.
-// TODO: - add code coverage test to RoundTimer class.
 
 import java.util.Scanner;
 
@@ -44,6 +41,8 @@ public class TypingGame {
     private String userChoice;
     private String afterRoundUserChoice;
 
+    private boolean isFirstRound;
+
     private String phrasesPath = "data/phrases.txt";
 
     // EFFECTS: initializes all required objects for the game to run and store information, and starts
@@ -54,6 +53,7 @@ public class TypingGame {
         random = new Random();
         roundTimer = new RoundTimer();
         gameRunning = true;
+        isFirstRound = true;
         jsonWriter = new JsonWriter(JSON_STORE);
         jsonReader = new JsonReader(JSON_STORE);
         mainGameLoop();
@@ -116,6 +116,7 @@ public class TypingGame {
         }
     }
 
+    // !!! THIS DOESN'T WORK PROPERLY SINCE IT AWAITS USER INPUT FROM THE CONSOEL BRUH
     // MODIFIES: userInfo
     // EFFECTS: removes the corresponding phrase from given phrase number from savedPhrases.
     public void removePhrase() {
@@ -125,13 +126,13 @@ public class TypingGame {
             System.out.print("Which phrase number would you like to remove?: ");
             int phraseNumber = scanner.nextInt();
             if (phraseNumber < 1 || phraseNumber > userInfo.getNumberOfSavedPhrases()) {
-            System.out.println("This phrase number does not exist. ");
-            scanner.nextLine();
-        } else {
-            userInfo.removeSavedPhrase(phraseNumber);
-            System.out.println("Phrase removed! ");
-            scanner.nextLine();
-        }
+                System.out.println("This phrase number does not exist. ");
+                scanner.nextLine();
+            } else {
+                userInfo.removeSavedPhrase(phraseNumber);
+                System.out.println("Phrase removed! ");
+                scanner.nextLine();
+            }
         } 
     }
 
@@ -151,12 +152,23 @@ public class TypingGame {
 
     // EFFECTS: creates a new round.
     public void newRound() {
-        try {
-            round = new Round(phrasesPath, random, roundTimer);
-            gameWindow = new GameWindow(round, userInfo);
-        } catch (IOException e) {
-            System.out.println("File not found. ");
-            e.printStackTrace();
+        if (isFirstRound) {
+            try {
+                round = new Round(phrasesPath, random, roundTimer);
+                gameWindow = new GameWindow(this, round, userInfo);
+                isFirstRound = false;
+            } catch (IOException e) {
+                System.out.println("File not found. ");
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                round = new Round(phrasesPath, random, roundTimer);
+                gameWindow.updateCurrentRound(round);
+            } catch (IOException e) {
+                System.out.println("File not found. ");
+                e.printStackTrace();
+            }
         }
     }
 
@@ -229,7 +241,7 @@ public class TypingGame {
     // https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
 
     // EFFECTS: saves user info (only saved phrases currently) to file
-    private void saveUserInfo() {
+    public void saveUserInfo() {
         try {
             jsonWriter.open();
             jsonWriter.write(userInfo);
@@ -245,7 +257,7 @@ public class TypingGame {
     
     // MODIFIES: this
     // EFFECTS: loads user info (only saved phrases currently) from file
-    private void loadUserInfo() {
+    public void loadUserInfo() {
         try {
             userInfo = jsonReader.read();
             System.out.println("Loaded phrases from " + JSON_STORE);
