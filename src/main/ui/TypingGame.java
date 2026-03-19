@@ -164,7 +164,6 @@ public class TypingGame {
         } else {
             try {
                 round = new Round(phrasesPath, random, roundTimer);
-                gameWindow.updateCurrentRound(round);
             } catch (IOException e) {
                 System.out.println("File not found. ");
                 e.printStackTrace();
@@ -264,5 +263,13 @@ public class TypingGame {
         } catch (IOException e) {
             System.out.println("Unable to read from file: " + JSON_STORE);
         }
+    }
+
+    public Round getRound() {
+        return this.round;
+    }
+
+    public UserInfo getUserInfo() {
+        return this.userInfo;
     }
 }

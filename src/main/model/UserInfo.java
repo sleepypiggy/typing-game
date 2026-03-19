@@ -40,6 +40,14 @@ public class UserInfo implements Writable {
     }
 
     // MODIFIES: this
+    // EFFECTS: removes the most recently added phrase.
+    public void removeSavedPhraseUIVersion() {
+        if (!savedPhrases.isEmpty()) {
+            this.savedPhrases.remove(savedPhrases.size() - 1);
+        }
+    }
+
+    // MODIFIES: this
     // EFFECTS: adds round to the list of past rounds played, pastRounds.
     public void addPastRound(Round round) {
         this.pastRounds.add(round);

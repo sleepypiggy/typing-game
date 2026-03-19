@@ -58,6 +58,8 @@ public class GameWindow extends JFrame {
         cardLayout.show(mainPanel, "end");
     }
 
+    // MODIFIES: this
+    // EFFECTS: updates the current round of this to currentRound.
     public void updateCurrentRound(Round currentRound) {
         this.currentRound = currentRound;
     }
