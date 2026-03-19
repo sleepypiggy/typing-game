@@ -6,32 +6,64 @@ import model.UserInfo;
 import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
-
-// QUESTIONS: - Does changing the button to a sprite count as the image aspect?
-//            - Do we have to display the list of x in a "panel" specifically?
-//            - How is was the difficulty of last weeks lab in comparison to midterm 4?
 
 // This class displays all the UI elements for anything that is on the end screen, including things like
 // the buttons, and the saved phrases (if the button to view saved phrases is clicked).
 
 @ExcludeFromJacocoGeneratedReport
 public class EndUI extends JPanel {
+    private BufferedImage buttonSpriteSheetBufferedImage;
+
     private TypingGame typingGame;
     private Round currentRound;
-    private UserInfo userInfo;
 
     private JButton addPhraseButton;
+    private Image addPhraseButtonImage;
+    private ImageIcon addPhraseButtonImageIcon;
+    private Image addPhraseButtonImageClicked;
+    private ImageIcon addPhraseButtonImageIconClicked;
+
     private JButton removePhraseButton;
+    private Image removePhraseButtonImage;
+    private ImageIcon removePhraseButtonImageIcon;
+    private Image removePhraseButtonImageClicked;
+    private ImageIcon removePhraseButtonImageIconClicked;
+
     private JButton viewPhraseButton;
+    private Image viewPhraseButtonImage;
+    private ImageIcon viewPhraseButtonImageIcon;
+    private Image viewPhraseButtonImageClicked;
+    private ImageIcon viewPhraseButtonImageIconClicked;
+
     private JButton saveButton;
+    private Image saveButtonImage;
+    private ImageIcon saveButtonImageIcon;
+    private Image saveButtonImageClicked;
+    private ImageIcon saveButtonImageIconClicked;
+
     private JButton loadButton;
+    private Image loadButtonImage;
+    private ImageIcon loadButtonImageIcon;
+    private Image loadButtonImageClicked;
+    private ImageIcon loadButtonImageIconClicked;
+
     private JButton exitButton;
+    private Image exitButtonImage;
+    private ImageIcon exitButtonImageIcon;
+    private Image exitButtonImageClicked;
+    private ImageIcon exitButtonImageIconClicked;
+
 
     private JPanel buttonLayout;
     private JPanel buttonContainer;
@@ -41,21 +73,24 @@ public class EndUI extends JPanel {
     public EndUI(TypingGame typingGame, Round currentRound, UserInfo userInfo) {
         this.typingGame = typingGame;
         this.currentRound = currentRound;
-        this.userInfo = userInfo;
+        initSpriteSheetImage();
         setLayout(new BorderLayout());
+        loadButtonImages();
         initButtons();
+        hideOriginalButtonBackground();
+        loadButtonClickedImages();
         initButtonLayout();
     }
 
     // MODIFIES: this
     // EFFECTS: creates all the buttons and calls the methods required to initialize their respective logic.
     public void initButtons() {
-        addPhraseButton = new JButton("Add phrase to favorites");
-        removePhraseButton = new JButton("Remove a phrase");
-        viewPhraseButton = new JButton("View phrases");
-        saveButton = new JButton("Download phrases");
-        loadButton = new JButton("Load phrases");
-        exitButton = new JButton("Exit");
+        addPhraseButton = new JButton(addPhraseButtonImageIcon);
+        removePhraseButton = new JButton(removePhraseButtonImageIcon);
+        viewPhraseButton = new JButton(viewPhraseButtonImageIcon);
+        saveButton = new JButton(saveButtonImageIcon);
+        loadButton = new JButton(loadButtonImageIcon);
+        exitButton = new JButton(exitButtonImageIcon);
 
         addPhraseButtonLogic();
         removePhraseButtonLogic();
@@ -82,6 +117,112 @@ public class EndUI extends JPanel {
         add(buttonContainer, BorderLayout.SOUTH);
     }
 
+    // EFFECTS: adds custom button sprites to each of the buttons
+    public void loadButtonImages() {
+        addPhraseButtonImage = getImage(buttonSpriteSheetBufferedImage, 320, 288, 31, 31);
+        addPhraseButtonImage = addPhraseButtonImage.getScaledInstance(93, 93, Image.SCALE_SMOOTH);
+        addPhraseButtonImageIcon = new ImageIcon(addPhraseButtonImage);
+
+        removePhraseButtonImage = getImage(buttonSpriteSheetBufferedImage, 384, 288, 31, 31);
+        removePhraseButtonImage = removePhraseButtonImage.getScaledInstance(93, 93, Image.SCALE_SMOOTH);
+        removePhraseButtonImageIcon = new ImageIcon(removePhraseButtonImage);
+
+        viewPhraseButtonImage = getImage(buttonSpriteSheetBufferedImage, 448, 32, 31, 31);
+        viewPhraseButtonImage = viewPhraseButtonImage.getScaledInstance(93, 93, Image.SCALE_SMOOTH);
+        viewPhraseButtonImageIcon = new ImageIcon(viewPhraseButtonImage);
+
+        saveButtonImage = getImage(buttonSpriteSheetBufferedImage, 448, 0, 31, 31);
+        saveButtonImage = saveButtonImage.getScaledInstance(93, 93, Image.SCALE_SMOOTH);
+        saveButtonImageIcon = new ImageIcon(saveButtonImage);
+
+        loadButtonImage = getImage(buttonSpriteSheetBufferedImage, 448, 224, 31, 31);
+        loadButtonImage = loadButtonImage.getScaledInstance(93, 93, Image.SCALE_SMOOTH);
+        loadButtonImageIcon = new ImageIcon(loadButtonImage);
+
+        exitButtonImage = getImage(buttonSpriteSheetBufferedImage, 384, 192, 31, 31);
+        exitButtonImage = exitButtonImage.getScaledInstance(93, 93, Image.SCALE_SMOOTH);
+        exitButtonImageIcon = new ImageIcon(exitButtonImage);
+    }
+
+    // EFFECTS: adds custom button sprite to each button on click
+    private void loadButtonClickedImages() {
+        addPhraseButtonImageClicked = getImage(buttonSpriteSheetBufferedImage, 352, 288, 31, 31);
+        addPhraseButtonImageClicked = addPhraseButtonImageClicked.getScaledInstance(93, 93, Image.SCALE_SMOOTH);
+        addPhraseButtonImageIconClicked = new ImageIcon(addPhraseButtonImageClicked);
+        addPhraseButton.setPressedIcon(addPhraseButtonImageIconClicked);
+
+        removePhraseButtonImageClicked = getImage(buttonSpriteSheetBufferedImage, 416, 288, 31, 31);
+        removePhraseButtonImageClicked = removePhraseButtonImageClicked.getScaledInstance(93, 93, Image.SCALE_SMOOTH);
+        removePhraseButtonImageIconClicked = new ImageIcon(removePhraseButtonImageClicked);
+        removePhraseButton.setPressedIcon(removePhraseButtonImageIconClicked);
+
+        viewPhraseButtonImageClicked = getImage(buttonSpriteSheetBufferedImage, 480, 32, 31, 31);
+        viewPhraseButtonImageClicked = viewPhraseButtonImageClicked.getScaledInstance(93, 93, Image.SCALE_SMOOTH);
+        viewPhraseButtonImageIconClicked = new ImageIcon(viewPhraseButtonImageClicked);
+        viewPhraseButton.setPressedIcon(viewPhraseButtonImageIconClicked);
+
+        saveButtonImageClicked = getImage(buttonSpriteSheetBufferedImage, 480, 0, 31, 31);
+        saveButtonImageClicked = saveButtonImageClicked.getScaledInstance(93, 93, Image.SCALE_SMOOTH);
+        saveButtonImageIconClicked = new ImageIcon(saveButtonImageClicked);
+        saveButton.setPressedIcon(saveButtonImageIconClicked);
+
+        loadButtonImageClicked = getImage(buttonSpriteSheetBufferedImage, 480, 224, 31, 31);
+        loadButtonImageClicked = loadButtonImageClicked.getScaledInstance(93, 93, Image.SCALE_SMOOTH);
+        loadButtonImageIconClicked = new ImageIcon(loadButtonImageClicked);
+        loadButton.setPressedIcon(loadButtonImageIconClicked);
+
+        exitButtonImageClicked = getImage(buttonSpriteSheetBufferedImage, 416, 192, 31, 31);
+        exitButtonImageClicked = exitButtonImageClicked.getScaledInstance(93, 93, Image.SCALE_SMOOTH);
+        exitButtonImageIconClicked = new ImageIcon(exitButtonImageClicked);
+        exitButton.setPressedIcon(exitButtonImageIconClicked);
+    }
+
+    // EFFECTS: hides the background of the default buttons
+    public void hideOriginalButtonBackground() {
+        addPhraseButton.setContentAreaFilled(false);
+        addPhraseButton.setBorderPainted(false);
+        addPhraseButton.setOpaque(false);
+        addPhraseButton.setFocusPainted(false);
+
+        removePhraseButton.setContentAreaFilled(false);
+        removePhraseButton.setBorderPainted(false);
+        removePhraseButton.setOpaque(false);
+        removePhraseButton.setFocusPainted(false);
+
+        viewPhraseButton.setContentAreaFilled(false);
+        viewPhraseButton.setBorderPainted(false);
+        viewPhraseButton.setOpaque(false);
+        viewPhraseButton.setFocusPainted(false);
+
+        saveButton.setContentAreaFilled(false);
+        saveButton.setBorderPainted(false);
+        saveButton.setOpaque(false);
+        saveButton.setFocusPainted(false);
+
+        loadButton.setContentAreaFilled(false);
+        loadButton.setBorderPainted(false);
+        loadButton.setOpaque(false);
+        loadButton.setFocusPainted(false);
+
+        exitButton.setContentAreaFilled(false);
+        exitButton.setBorderPainted(false);
+        exitButton.setOpaque(false);
+        exitButton.setFocusPainted(false);
+    }
+
+    public BufferedImage getImage(BufferedImage image, int x, int y, int w, int h) {
+        return image.getSubimage(x, y, w, h);
+    }
+
+    // EFFECTS: instantiates the sprite sheet image used for all the button sprites
+    public void initSpriteSheetImage() {
+        try {
+            buttonSpriteSheetBufferedImage = ImageIO.read(new File("data/buttons.png"));
+        } catch (IOException e) {
+            System.out.println("Something went wrong. ");
+        }
+    }
+
     // EFFECTS: handles what the addPhraseButton does on click.
     public void addPhraseButtonLogic() {
         addPhraseButton.addActionListener(new ActionListener() {
@@ -97,7 +238,7 @@ public class EndUI extends JPanel {
         removePhraseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                typingGame.removePhrase();
+                typingGame.getUserInfo().removeSavedPhraseUIVersion();
             }
         });
     }
@@ -145,11 +286,9 @@ public class EndUI extends JPanel {
     // EFFECTS: displays the saved phrases in a pop-up window.
     public void showSavedPhrases() {
         StringBuilder savedPhrases = new StringBuilder();
-        for (String s : userInfo.getSavedPhrases()) {
+        for (String s : typingGame.getUserInfo().getSavedPhrases()) {
             savedPhrases.append("- " + s + "\n");
         }
         JOptionPane.showMessageDialog(this, savedPhrases.toString(), "Saved Phrases", JOptionPane.INFORMATION_MESSAGE);
     }
-
-
 }
