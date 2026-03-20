@@ -64,12 +64,15 @@ public class EndUI extends JPanel {
     private Image exitButtonImageClicked;
     private ImageIcon exitButtonImageIconClicked;
 
+    private JLabel keyboardImageLabel;
+    private Image keyboardImage;
+    private ImageIcon keyboardImageIcon;
 
     private JPanel buttonLayout;
     private JPanel buttonContainer;
 
     // EFFECTS: initializes the typingGame, the current round, and all the user information. Also sets the layout
-    //          of this, and initializes the buttons as well as their layouts.
+    //          of this, initializes the buttons as well as their layouts, and adds an image to the window.
     public EndUI(TypingGame typingGame, Round currentRound, UserInfo userInfo) {
         this.typingGame = typingGame;
         this.currentRound = currentRound;
@@ -80,6 +83,22 @@ public class EndUI extends JPanel {
         hideOriginalButtonBackground();
         loadButtonClickedImages();
         initButtonLayout();
+        loadKeyboardImage();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: display an image of a keyboard in the window.
+    public void loadKeyboardImage() {
+        try {
+            keyboardImage = ImageIO.read(new File("data/keyboard.png"));
+        } catch (IOException e) {
+            System.out.println("Image not found. ");
+            e.printStackTrace();
+        }
+        keyboardImage.getScaledInstance(926, 322, Image.SCALE_SMOOTH);
+        keyboardImageIcon = new ImageIcon(keyboardImage);
+        keyboardImageLabel = new JLabel(keyboardImageIcon);
+        add(keyboardImageLabel);
     }
 
     // MODIFIES: this
@@ -210,6 +229,7 @@ public class EndUI extends JPanel {
         exitButton.setFocusPainted(false);
     }
 
+    // EFFECTS: returns a select portion of image.
     public BufferedImage getImage(BufferedImage image, int x, int y, int w, int h) {
         return image.getSubimage(x, y, w, h);
     }
