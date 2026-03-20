@@ -26,6 +26,8 @@ public class GameWindow extends JFrame {
     private GameUI gameUI;
     private EndUI endUI;
 
+    // EFFECTS: instantiates the associated information so that the GUI can interact with and display information,
+    //          and creates the window for the GUI to appear in, as well as the GUI itself.
     public GameWindow(TypingGame typingGame, Round currentRound, UserInfo userInfo) {
         //menuUI = new MenuUI(this);
         //gameUI = new GameUI(currentRound);

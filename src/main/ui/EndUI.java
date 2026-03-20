@@ -143,6 +143,7 @@ public class EndUI extends JPanel {
         add(buttonContainer, BorderLayout.SOUTH);
     }
 
+    // MODIFIES: this
     // EFFECTS: adds custom button sprites to each of the buttons
     public void loadButtonImages() {
         addPhraseButtonImage = getImage(buttonSpriteSheetBufferedImage, 320, 288, 31, 31);
@@ -170,6 +171,7 @@ public class EndUI extends JPanel {
         exitButtonImageIcon = new ImageIcon(exitButtonImage);
     }
 
+    // MODIFIE: this
     // EFFECTS: adds custom button sprite to each button on click
     private void loadButtonClickedImages() {
         addPhraseButtonImageClicked = getImage(buttonSpriteSheetBufferedImage, 352, 288, 31, 31);
@@ -197,6 +199,7 @@ public class EndUI extends JPanel {
         exitButtonImageIconClicked = new ImageIcon(exitButtonImageClicked);
     }
 
+    // MODIFIES: this
     // EFFECTS: hides the background of the default buttons
     public void hideOriginalButtonBackground() {
         addPhraseButton.setContentAreaFilled(false);
@@ -229,6 +232,7 @@ public class EndUI extends JPanel {
         return image.getSubimage(x, y, w, h);
     }
 
+    // MODIFIES: this
     // EFFECTS: instantiates the sprite sheet image used for all the button sprites
     public void initSpriteSheetImage() {
         try {
@@ -238,6 +242,7 @@ public class EndUI extends JPanel {
         }
     }
 
+    // MODIFIES: this
     // EFFECTS: handles what the addPhraseButton does on click.
     public void addPhraseButtonLogic() {
         addPhraseButton.addActionListener(new ActionListener() {
@@ -248,6 +253,7 @@ public class EndUI extends JPanel {
         });
     }
 
+    // MODIFIES: this
     // EFFECTS: handles what the removePhraseButton does on click.
     public void removePhraseButtonLogic() {
         removePhraseButton.addActionListener(new ActionListener() {
@@ -258,6 +264,7 @@ public class EndUI extends JPanel {
         });
     }
 
+    // MODIFIES: this
     // EFFECTS: handles what the viewPhraseButton does on click.
     public void viewPhraseButtonLogic() {
         viewPhraseButton.addActionListener(new ActionListener() {
@@ -268,6 +275,7 @@ public class EndUI extends JPanel {
         });
     }
 
+    // MODIFIES: this
     // EFFECTS: handles what the saveButton does on click.
     public void saveButtonLogic() {
         saveButton.addActionListener(new ActionListener() {
@@ -278,6 +286,7 @@ public class EndUI extends JPanel {
         });
     }
 
+    // MODIFIES: this
     // EFFECTS: handles what the loadButton does on click.
     public void loadButtonLogic() {
         loadButton.addActionListener(new ActionListener() {
@@ -288,6 +297,7 @@ public class EndUI extends JPanel {
         });
     }
 
+    // MODIFIES: this
     // EFFECTS: handles what the exitButton does on click.
     public void exitButtonLogic() {
         exitButton.addActionListener(new ActionListener() {

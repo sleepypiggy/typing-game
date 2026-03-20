@@ -13,7 +13,7 @@ import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 @ExcludeFromJacocoGeneratedReport
 public class TestUserInfo {
 
-    private String testPhrases = "data/testPhrases.txt";
+    private String testPhrases = "./data/testPhrases.txt";
 
     private UserInfo userInfo;
 
