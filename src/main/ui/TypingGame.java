@@ -116,7 +116,6 @@ public class TypingGame {
         }
     }
 
-    // !!! THIS DOESN'T WORK PROPERLY SINCE IT AWAITS USER INPUT FROM THE CONSOEL BRUH
     // MODIFIES: userInfo
     // EFFECTS: removes the corresponding phrase from given phrase number from savedPhrases.
     public void removePhrase() {
