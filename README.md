@@ -17,3 +17,4 @@ This project interests me because I want to make some sort of game, but I don't 
 - As a user, I want to be able to adjust the parameters of each round to my liking (e.g. the amount of time each round lasts).
 - As a user, I want to be be able to save the list of my favorite phrases to a file if I choose to do so.
 - As a user, I want to be be able to load the list of my favorite phrases from file if I choose to do so.
+- As a user, I should only use the GUI buttons at the end (when the round is over) to avoid any unforeseen circumstances.
