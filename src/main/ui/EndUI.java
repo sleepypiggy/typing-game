@@ -79,9 +79,9 @@ public class EndUI extends JPanel {
         initSpriteSheetImage();
         setLayout(new BorderLayout());
         loadButtonImages();
+        loadButtonClickedImages();
         initButtons();
         hideOriginalButtonBackground();
-        loadButtonClickedImages();
         initButtonLayout();
         loadKeyboardImage();
     }
@@ -90,7 +90,7 @@ public class EndUI extends JPanel {
     // EFFECTS: display an image of a keyboard in the window.
     public void loadKeyboardImage() {
         try {
-            keyboardImage = ImageIO.read(new File("data/keyboard.png"));
+            keyboardImage = ImageIO.read(new File("./data/keyboard.png"));
         } catch (IOException e) {
             System.out.println("Image not found. ");
             e.printStackTrace();
@@ -117,6 +117,13 @@ public class EndUI extends JPanel {
         saveButtonLogic();
         loadButtonLogic();
         exitButtonLogic();
+
+        addPhraseButton.setPressedIcon(addPhraseButtonImageIconClicked);
+        removePhraseButton.setPressedIcon(removePhraseButtonImageIconClicked);
+        viewPhraseButton.setPressedIcon(viewPhraseButtonImageIconClicked);
+        saveButton.setPressedIcon(saveButtonImageIconClicked);
+        loadButton.setPressedIcon(loadButtonImageIconClicked);
+        exitButton.setPressedIcon(exitButtonImageIconClicked);
     }
 
     // MODIFIES: this
@@ -168,64 +175,52 @@ public class EndUI extends JPanel {
         addPhraseButtonImageClicked = getImage(buttonSpriteSheetBufferedImage, 352, 288, 31, 31);
         addPhraseButtonImageClicked = addPhraseButtonImageClicked.getScaledInstance(93, 93, Image.SCALE_SMOOTH);
         addPhraseButtonImageIconClicked = new ImageIcon(addPhraseButtonImageClicked);
-        addPhraseButton.setPressedIcon(addPhraseButtonImageIconClicked);
 
         removePhraseButtonImageClicked = getImage(buttonSpriteSheetBufferedImage, 416, 288, 31, 31);
         removePhraseButtonImageClicked = removePhraseButtonImageClicked.getScaledInstance(93, 93, Image.SCALE_SMOOTH);
         removePhraseButtonImageIconClicked = new ImageIcon(removePhraseButtonImageClicked);
-        removePhraseButton.setPressedIcon(removePhraseButtonImageIconClicked);
 
         viewPhraseButtonImageClicked = getImage(buttonSpriteSheetBufferedImage, 480, 32, 31, 31);
         viewPhraseButtonImageClicked = viewPhraseButtonImageClicked.getScaledInstance(93, 93, Image.SCALE_SMOOTH);
         viewPhraseButtonImageIconClicked = new ImageIcon(viewPhraseButtonImageClicked);
-        viewPhraseButton.setPressedIcon(viewPhraseButtonImageIconClicked);
 
         saveButtonImageClicked = getImage(buttonSpriteSheetBufferedImage, 480, 0, 31, 31);
         saveButtonImageClicked = saveButtonImageClicked.getScaledInstance(93, 93, Image.SCALE_SMOOTH);
         saveButtonImageIconClicked = new ImageIcon(saveButtonImageClicked);
-        saveButton.setPressedIcon(saveButtonImageIconClicked);
 
         loadButtonImageClicked = getImage(buttonSpriteSheetBufferedImage, 480, 224, 31, 31);
         loadButtonImageClicked = loadButtonImageClicked.getScaledInstance(93, 93, Image.SCALE_SMOOTH);
         loadButtonImageIconClicked = new ImageIcon(loadButtonImageClicked);
-        loadButton.setPressedIcon(loadButtonImageIconClicked);
 
         exitButtonImageClicked = getImage(buttonSpriteSheetBufferedImage, 416, 192, 31, 31);
         exitButtonImageClicked = exitButtonImageClicked.getScaledInstance(93, 93, Image.SCALE_SMOOTH);
         exitButtonImageIconClicked = new ImageIcon(exitButtonImageClicked);
-        exitButton.setPressedIcon(exitButtonImageIconClicked);
     }
 
     // EFFECTS: hides the background of the default buttons
     public void hideOriginalButtonBackground() {
         addPhraseButton.setContentAreaFilled(false);
         addPhraseButton.setBorderPainted(false);
-        addPhraseButton.setOpaque(false);
         addPhraseButton.setFocusPainted(false);
 
         removePhraseButton.setContentAreaFilled(false);
         removePhraseButton.setBorderPainted(false);
-        removePhraseButton.setOpaque(false);
         removePhraseButton.setFocusPainted(false);
 
         viewPhraseButton.setContentAreaFilled(false);
         viewPhraseButton.setBorderPainted(false);
-        viewPhraseButton.setOpaque(false);
         viewPhraseButton.setFocusPainted(false);
 
         saveButton.setContentAreaFilled(false);
         saveButton.setBorderPainted(false);
-        saveButton.setOpaque(false);
         saveButton.setFocusPainted(false);
 
         loadButton.setContentAreaFilled(false);
         loadButton.setBorderPainted(false);
-        loadButton.setOpaque(false);
         loadButton.setFocusPainted(false);
 
         exitButton.setContentAreaFilled(false);
         exitButton.setBorderPainted(false);
-        exitButton.setOpaque(false);
         exitButton.setFocusPainted(false);
     }
 
@@ -237,7 +232,7 @@ public class EndUI extends JPanel {
     // EFFECTS: instantiates the sprite sheet image used for all the button sprites
     public void initSpriteSheetImage() {
         try {
-            buttonSpriteSheetBufferedImage = ImageIO.read(new File("data/buttons.png"));
+            buttonSpriteSheetBufferedImage = ImageIO.read(new File("./data/buttons.png"));
         } catch (IOException e) {
             System.out.println("Something went wrong. ");
         }
