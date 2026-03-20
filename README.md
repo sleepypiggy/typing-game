@@ -20,9 +20,9 @@ This project interests me because I want to make some sort of game, but I don't 
 - As a user, I should only use the GUI buttons at the end (when the round is over) to avoid any unforeseen circumstances.
 
 # Instructions for End User
-- You can view the panel that displays the Xs that have already been added to the Y by pressing the button with the icon of a piece of paper (the third button in the top row), and a popup will appear containing all the saved phrases. If there are no saved phrases, the popup will still appear, but it will be empty.
-- You can generate the first required action related to the user story "adding multiple Xs to a Y" by pressing the plus button (the first button in the top row).
-- You can generate the second required action related to the user story "removing an X from a Y" by pressing the minus button (the second button in the top row).
+- You can view the panel that displays the saved phrases that have already been added to the list of saved phrases by pressing the button with the icon of a piece of paper (the third button in the top row), and a popup will appear containing all the saved phrases. If there are no saved phrases, the popup will still appear, but it will be empty.
+- You can generate the first required action related to the user story "adding multiple phrases to a list of saved phrases" by pressing the plus button (the first button in the top row).
+- You can generate the second required action related to the user story "removing a saved phrase from a list of saved phrases" by pressing the minus button (the second button in the top row).
 - You can locate my visual component by looking at the center of the GUI window, where there is a picture of a keyboard.
 - You can save the state of my application by pressing the button with the arrow pointing downwards (the first button in the second row).
 - You can reload the state of my application by pressing the button with the two arrows in a circular pattern (the second button in the second row).
