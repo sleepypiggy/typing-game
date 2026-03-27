@@ -27,3 +27,20 @@ This project interests me because I want to make some sort of game, but I don't 
 - You can save the state of my application by pressing the button with the arrow pointing downwards (the first button in the second row).
 - You can reload the state of my application by pressing the button with the two arrows in a circular pattern (the second button in the second row).
 - You can exit the application by pressing the button with an x on it (the third button in the second row).
+
+# Phase 4: Task 2
+Event log:  
+Fri Mar 27 15:03:43 PDT 2026  
+Phrase added: Can I ask you... your name?
+
+
+Fri Mar 27 15:03:44 PDT 2026  
+Viewed saved phrases.
+
+
+Fri Mar 27 15:03:51 PDT 2026  
+Phrase removed: Can I ask you... your name?
+
+
+Fri Mar 27 15:03:52 PDT 2026  
+Viewed saved phrases.

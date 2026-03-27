@@ -153,5 +153,22 @@ public class TestUserInfo {
         assertEquals(2, userInfo.getNumberOfPastRounds());
         assertEquals(testList, userInfo.getPastRounds());
     }
+    
+    @Test
+    void testGetSavedPhrasesToView() {
+        String displayedText = "- " + testRound1.getActualText() + "\n";
+        userInfo.addSavedPhrase(testRound1.getActualText());
 
+        assertEquals(displayedText, userInfo.getSavedPhrasesToView());
+    }
+
+    @Test
+    void testGetSavedPhrasesToViewMultiplePhrases() {
+        String displayedText = "- " + testRound1.getActualText() + "\n" + "- " + testRound2.getActualText() + "\n";
+
+        userInfo.addSavedPhrase(testRound1.getActualText());
+        userInfo.addSavedPhrase(testRound2.getActualText());
+
+        assertEquals(displayedText, userInfo.getSavedPhrasesToView());
+    }
 }

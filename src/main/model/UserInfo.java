@@ -30,6 +30,7 @@ public class UserInfo implements Writable {
     public void addSavedPhrase(StringBuilder phrase) {
         if (!this.savedPhrases.contains(phrase.toString())) {
             this.savedPhrases.add(phrase.toString());
+            EventLog.getInstance().logEvent(new Event("Phrase added: " + phrase));
         }
     }
 
@@ -43,8 +44,19 @@ public class UserInfo implements Writable {
     // EFFECTS: removes the most recently added phrase.
     public void removeSavedPhraseUIVersion() {
         if (!savedPhrases.isEmpty()) {
+            EventLog.getInstance().logEvent(new Event("Phrase removed: " + savedPhrases.get(savedPhrases.size() - 1)));
             this.savedPhrases.remove(savedPhrases.size() - 1);
         }
+    }
+
+    // EFFECTS: returns a String of a list of the saved phrases
+    public String getSavedPhrasesToView() {
+        StringBuilder savedPhrases = new StringBuilder();
+        for (String s : this.savedPhrases) {
+            savedPhrases.append("- " + s + "\n");
+        }
+        EventLog.getInstance().logEvent(new Event("Viewed saved phrases. "));
+        return savedPhrases.toString();
     }
 
     // MODIFIES: this

@@ -2,6 +2,8 @@ package ui;
 
 import model.Round;
 import model.UserInfo;
+import model.exception.LogException;
+import model.EventLog;
 
 import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
@@ -303,6 +305,14 @@ public class EndUI extends JPanel {
         exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                LogPrinter lp;
+                lp = new ConsolePrinter();
+                try {
+                    lp.printLog(EventLog.getInstance());
+                } catch (LogException le) {
+                    System.out.println("System Error. ");
+                    le.printStackTrace();
+                }
                 System.exit(0);
             }
         });
@@ -310,10 +320,6 @@ public class EndUI extends JPanel {
 
     // EFFECTS: displays the saved phrases in a pop-up window.
     public void showSavedPhrases() {
-        StringBuilder savedPhrases = new StringBuilder();
-        for (String s : typingGame.getUserInfo().getSavedPhrases()) {
-            savedPhrases.append("- " + s + "\n");
-        }
-        JOptionPane.showMessageDialog(this, savedPhrases.toString(), "Saved Phrases", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, typingGame.getUserInfo().getSavedPhrasesToView(), "Saved Phrases", JOptionPane.INFORMATION_MESSAGE);
     }
 }
