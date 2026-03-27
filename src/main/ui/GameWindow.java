@@ -22,8 +22,6 @@ public class GameWindow extends JFrame {
     private CardLayout cardLayout;
     private JPanel mainPanel;
 
-    private MenuUI menuUI;
-    private GameUI gameUI;
     private EndUI endUI;
 
     // EFFECTS: instantiates the associated information so that the GUI can interact with and display information,
@@ -50,15 +48,15 @@ public class GameWindow extends JFrame {
         add(mainPanel);
     }
 
-    // EFFECTS: displays the GameUI class.
-    public void switchToGameUI() {
-        cardLayout.show(mainPanel, "game");
-    }
+    // // EFFECTS: displays the GameUI class.
+    // public void switchToGameUI() {
+    //     cardLayout.show(mainPanel, "game");
+    // }
 
-    // EFFECTS: displays the EndUI class.
-    public void switchToGameOverUI() {
-        cardLayout.show(mainPanel, "end");
-    }
+    // // EFFECTS: displays the EndUI class.
+    // public void switchToGameOverUI() {
+    //     cardLayout.show(mainPanel, "end");
+    // }
 
     // MODIFIES: this
     // EFFECTS: updates the current round of this to currentRound.
