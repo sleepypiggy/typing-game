@@ -44,3 +44,6 @@ Phrase removed: Can I ask you... your name?
 
 Fri Mar 27 15:03:52 PDT 2026  
 Viewed saved phrases.
+
+# Phase 4: Task 3
+If I had more time to work on the project, I would probably refactor the `TypingGame` class and abstract some functionality out of it. The `TypingGame` class is supposed to represent the main game loop, so it controls when the game starts, when the game ends, and all the other functionality that comes with it. However, right now, there is a lot going on that doesn't make it cohesive, such as the `countdown` method. As a result, the the `TypingGame` class is doing a little more than only handling the game loop, making the code convoluted. To make it better, I would probably remove the `countdown`, `saveUserInfo`, `loadUserInfo`, and `printEventLogToConsoleAndQuit` methods into a separate class. I could also potentially move the methods which print out the pre-determined options to another class. Then, the `TypingGame` class would only have the methods involving the main game loop.
