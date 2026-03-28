@@ -2,16 +2,18 @@ package ui;
 
 import javax.swing.JInternalFrame;
 
+import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 import model.Event;
 import model.EventLog;
 
 /**
- * Represents a screen printer for printing event log to screen.
+ * Represents a console printer for printing event log to console.
  */
+@ExcludeFromJacocoGeneratedReport
 public class ConsolePrinter extends JInternalFrame implements LogPrinter {	
 	/**
-	 * Constructor sets up window in which log will be printed on screen
-	 * @param parent  the parent component
+	 * Constructor does not do anything in this case since the event log
+	 * is printed directly to the console.
 	 */
     public ConsolePrinter() {
         

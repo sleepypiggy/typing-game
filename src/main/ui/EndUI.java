@@ -320,6 +320,7 @@ public class EndUI extends JPanel {
 
     // EFFECTS: displays the saved phrases in a pop-up window.
     public void showSavedPhrases() {
-        JOptionPane.showMessageDialog(this, typingGame.getUserInfo().getSavedPhrasesToView(), "Saved Phrases", JOptionPane.INFORMATION_MESSAGE);
+        String displayedPhrases =  typingGame.getUserInfo().getSavedPhrasesToView();
+        JOptionPane.showMessageDialog(this, displayedPhrases, "Saved Phrases", JOptionPane.INFORMATION_MESSAGE);
     }
 }

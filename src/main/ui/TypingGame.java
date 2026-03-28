@@ -12,10 +12,11 @@ import java.io.IOException;
 import java.util.Random;
 import persistence.JsonReader;
 import persistence.JsonWriter;
-
+import model.EventLog;
 import model.Round;
 import model.RoundTimer;
 import model.UserInfo;
+import model.exception.LogException;
 
 // The TypingGame class represents the core structure of the typing game.
 // It is where the structure of the game itself is being managed, including the 
@@ -91,7 +92,7 @@ public class TypingGame {
                     } else if (afterRoundUserChoice.equalsIgnoreCase("E")) {
                         System.out.println("Goodbye. ");
                         gameRunning = false;
-                        break;
+                        printEventLogToConsoleAndQuit();
                     } else {
                         System.out.println("Invalid input. Try again. ");
                     }
@@ -142,9 +143,7 @@ public class TypingGame {
         } else {
             System.out.println("Saved phrases: ");
             System.out.println("-------------- ");
-            for (int i = 0; i <= userInfo.getNumberOfSavedPhrases() - 1; i++) {
-                System.out.println("- " + userInfo.getSavedPhrases().get(i));
-            }
+            System.out.println(userInfo.getSavedPhrasesToView());
             System.out.println();
         }
     }
@@ -262,6 +261,19 @@ public class TypingGame {
         } catch (IOException e) {
             System.out.println("Unable to read from file: " + JSON_STORE);
         }
+    }
+
+    // EFFECTS: prints the event log to console and exits the program.
+    public void printEventLogToConsoleAndQuit() {
+        LogPrinter lp;
+        lp = new ConsolePrinter();
+        try {
+            lp.printLog(EventLog.getInstance());
+        } catch (LogException le) {
+            System.out.println("System Error. ");
+            le.printStackTrace();
+        }
+        System.exit(0);
     }
 
     public Round getRound() {
