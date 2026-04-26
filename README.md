@@ -2,6 +2,8 @@
 
 ## Project Description
 
+Test commit and push.
+
 My project is going to be a typing game where you have to try to type the words and phrases displayed on screen as accurately as possible. You have to do so in a certain timeframe, or you have to get to a certain score in the quickest time possible.
 
 This application might be used by people who want to improve their typing skills in general, or people who want to test their typing capabilities.
