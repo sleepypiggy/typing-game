@@ -25,6 +25,11 @@ public class ButtonSpriteSheet {
         }
     }
 
+    // EFFECTS: returns a select portion of image.
+    public BufferedImage getImage(BufferedImage image, int x, int y, int w, int h) {
+        return image.getSubimage(x, y, w, h);
+    }
+
     public BufferedImage getButtonSpriteSheetBufferedImage() {
         return this.buttonSpriteSheetBufferedImage;
     }
