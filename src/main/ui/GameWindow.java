@@ -34,20 +34,16 @@ public class GameWindow extends JFrame {
         this.currentRound = currentRound;
         this.userInfo = userInfo;
         this.buttonSpriteSheet = new ButtonSpriteSheet();
-        endUI = new EndUI(typingGame, currentRound, userInfo, this.buttonSpriteSheet, this);
         menuUI = new MenuUI(typingGame, currentRound, userInfo, this.buttonSpriteSheet, this);
-        gameUI = new GameUI(typingGame, currentRound, userInfo);
 
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
 
         mainPanel.add(menuUI, "menu");
-        mainPanel.add(gameUI, "game");
-        mainPanel.add(endUI, "end");
 
         setExtendedState(Frame.MAXIMIZED_BOTH);
         setVisible(true);
-        //setResizable(false);
+        setResizable(false);
 
         add(mainPanel);
     }
@@ -60,6 +56,20 @@ public class GameWindow extends JFrame {
     // EFFECTS: displays the EndUI class.
     public void switchToGameOverUI() {
         cardLayout.show(mainPanel, "end");
+    }
+
+    // MODIFIES: this
+    // EFFECTS: creates the UI that displays the game area
+    public void createGameUI() {
+        this.gameUI = new GameUI(typingGame, currentRound, userInfo, this);
+        mainPanel.add(gameUI, "game");
+    }
+
+    // MODIFIES: this
+    // EFFECTS: creates the UI that displays the end screen area
+    public void createEndUI() {
+        this.endUI = new EndUI(typingGame, currentRound, userInfo, buttonSpriteSheet, this);
+        mainPanel.add(endUI, "end");
     }
 
     // MODIFIES: this
