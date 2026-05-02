@@ -28,6 +28,7 @@ public class EndUI extends UIElement {
     private ButtonSpriteSheet buttonSpriteSheet;
 
     private GameWindow gameWindow;
+    private Round currentRound;
 
     private JButton addPhraseButton;
     private Image addPhraseButtonImage;
@@ -65,12 +66,13 @@ public class EndUI extends UIElement {
     private Image exitButtonImageClicked;
     private ImageIcon exitButtonImageIconClicked;
 
-    private JLabel keyboardImageLabel;
-    private Image keyboardImage;
-    private ImageIcon keyboardImageIcon;
-
     private JPanel buttonLayout;
     private JPanel buttonContainer;
+
+    private JLabel wordsPerMinute;
+    private JLabel accuracy;
+    private JPanel statsContainer;
+    private JPanel statsContainerLayout;
 
     // EFFECTS: initializes the typingGame, the current round, and all the user information. Also sets the layout
     //          of this, initializes the buttons as well as their layouts, and adds an image to the window.
@@ -78,28 +80,30 @@ public class EndUI extends UIElement {
         super(typingGame, currentRound, userInfo);
         this.buttonSpriteSheet = buttonSpriteSheet;
         this.gameWindow = gameWindow;
+        this.currentRound = currentRound;
         setLayout(new BorderLayout());
         loadButtonImages();
         loadButtonClickedImages();
         initButtons();
         hideOriginalButtonBackground();
         initButtonLayout();
-        loadKeyboardImage();
+        displayStats();
     }
 
     // MODIFIES: this
-    // EFFECTS: display an image of a keyboard in the window.
-    public void loadKeyboardImage() {
-        try {
-            keyboardImage = ImageIO.read(new File("./data/keyboard.png"));
-        } catch (IOException e) {
-            System.out.println("Image not found. ");
-            e.printStackTrace();
-        }
-        keyboardImage.getScaledInstance(926, 322, Image.SCALE_SMOOTH);
-        keyboardImageIcon = new ImageIcon(keyboardImage);
-        keyboardImageLabel = new JLabel(keyboardImageIcon);
-        add(keyboardImageLabel);
+    // EFFECTS: displays the words per minute and accuracy on screen
+    private void displayStats() {
+        wordsPerMinute = new JLabel("Words per minute: " + String.valueOf(currentRound.getWordsPerMinute()));
+        accuracy = new JLabel("Accuracy: " + String.valueOf(currentRound.getAccuracy()));
+
+        statsContainer = new JPanel(new GridLayout(2, 1));
+        statsContainerLayout = new JPanel(new GridBagLayout());
+        
+        statsContainer.add(wordsPerMinute);
+        statsContainer.add(accuracy);
+        statsContainerLayout.add(statsContainer);
+
+        add(statsContainerLayout, BorderLayout.NORTH);
     }
 
     // MODIFIES: this
@@ -147,27 +151,27 @@ public class EndUI extends UIElement {
     // MODIFIES: this
     // EFFECTS: adds custom button sprites to each of the buttons
     public void loadButtonImages() {
-        addPhraseButtonImage = getImage(buttonSpriteSheet.getButtonSpriteSheetBufferedImage(), 320, 288, 31, 31);
+        addPhraseButtonImage = buttonSpriteSheet.getImage(buttonSpriteSheet.getButtonSpriteSheetBufferedImage(), 320, 288, 31, 31);
         addPhraseButtonImage = addPhraseButtonImage.getScaledInstance(93, 93, Image.SCALE_SMOOTH);
         addPhraseButtonImageIcon = new ImageIcon(addPhraseButtonImage);
 
-        removePhraseButtonImage = getImage(buttonSpriteSheet.getButtonSpriteSheetBufferedImage(), 384, 288, 31, 31);
+        removePhraseButtonImage = buttonSpriteSheet.getImage(buttonSpriteSheet.getButtonSpriteSheetBufferedImage(), 384, 288, 31, 31);
         removePhraseButtonImage = removePhraseButtonImage.getScaledInstance(93, 93, Image.SCALE_SMOOTH);
         removePhraseButtonImageIcon = new ImageIcon(removePhraseButtonImage);
 
-        viewPhraseButtonImage = getImage(buttonSpriteSheet.getButtonSpriteSheetBufferedImage(), 448, 32, 31, 31);
+        viewPhraseButtonImage = buttonSpriteSheet.getImage(buttonSpriteSheet.getButtonSpriteSheetBufferedImage(), 448, 32, 31, 31);
         viewPhraseButtonImage = viewPhraseButtonImage.getScaledInstance(93, 93, Image.SCALE_SMOOTH);
         viewPhraseButtonImageIcon = new ImageIcon(viewPhraseButtonImage);
 
-        saveButtonImage = getImage(buttonSpriteSheet.getButtonSpriteSheetBufferedImage(), 448, 0, 31, 31);
+        saveButtonImage = buttonSpriteSheet.getImage(buttonSpriteSheet.getButtonSpriteSheetBufferedImage(), 448, 0, 31, 31);
         saveButtonImage = saveButtonImage.getScaledInstance(93, 93, Image.SCALE_SMOOTH);
         saveButtonImageIcon = new ImageIcon(saveButtonImage);
 
-        loadButtonImage = getImage(buttonSpriteSheet.getButtonSpriteSheetBufferedImage(), 448, 224, 31, 31);
+        loadButtonImage = buttonSpriteSheet.getImage(buttonSpriteSheet.getButtonSpriteSheetBufferedImage(), 448, 224, 31, 31);
         loadButtonImage = loadButtonImage.getScaledInstance(93, 93, Image.SCALE_SMOOTH);
         loadButtonImageIcon = new ImageIcon(loadButtonImage);
 
-        exitButtonImage = getImage(buttonSpriteSheet.getButtonSpriteSheetBufferedImage(), 384, 192, 31, 31);
+        exitButtonImage = buttonSpriteSheet.getImage(buttonSpriteSheet.getButtonSpriteSheetBufferedImage(), 384, 192, 31, 31);
         exitButtonImage = exitButtonImage.getScaledInstance(93, 93, Image.SCALE_SMOOTH);
         exitButtonImageIcon = new ImageIcon(exitButtonImage);
     }
@@ -175,27 +179,27 @@ public class EndUI extends UIElement {
     // MODIFIE: this
     // EFFECTS: adds custom button sprite to each button on click
     private void loadButtonClickedImages() {
-        addPhraseButtonImageClicked = getImage(buttonSpriteSheet.getButtonSpriteSheetBufferedImage(), 352, 288, 31, 31);
+        addPhraseButtonImageClicked = buttonSpriteSheet.getImage(buttonSpriteSheet.getButtonSpriteSheetBufferedImage(), 352, 288, 31, 31);
         addPhraseButtonImageClicked = addPhraseButtonImageClicked.getScaledInstance(93, 93, Image.SCALE_SMOOTH);
         addPhraseButtonImageIconClicked = new ImageIcon(addPhraseButtonImageClicked);
 
-        removePhraseButtonImageClicked = getImage(buttonSpriteSheet.getButtonSpriteSheetBufferedImage(), 416, 288, 31, 31);
+        removePhraseButtonImageClicked = buttonSpriteSheet.getImage(buttonSpriteSheet.getButtonSpriteSheetBufferedImage(), 416, 288, 31, 31);
         removePhraseButtonImageClicked = removePhraseButtonImageClicked.getScaledInstance(93, 93, Image.SCALE_SMOOTH);
         removePhraseButtonImageIconClicked = new ImageIcon(removePhraseButtonImageClicked);
 
-        viewPhraseButtonImageClicked = getImage(buttonSpriteSheet.getButtonSpriteSheetBufferedImage(), 480, 32, 31, 31);
+        viewPhraseButtonImageClicked = buttonSpriteSheet.getImage(buttonSpriteSheet.getButtonSpriteSheetBufferedImage(), 480, 32, 31, 31);
         viewPhraseButtonImageClicked = viewPhraseButtonImageClicked.getScaledInstance(93, 93, Image.SCALE_SMOOTH);
         viewPhraseButtonImageIconClicked = new ImageIcon(viewPhraseButtonImageClicked);
 
-        saveButtonImageClicked = getImage(buttonSpriteSheet.getButtonSpriteSheetBufferedImage(), 480, 0, 31, 31);
+        saveButtonImageClicked = buttonSpriteSheet.getImage(buttonSpriteSheet.getButtonSpriteSheetBufferedImage(), 480, 0, 31, 31);
         saveButtonImageClicked = saveButtonImageClicked.getScaledInstance(93, 93, Image.SCALE_SMOOTH);
         saveButtonImageIconClicked = new ImageIcon(saveButtonImageClicked);
 
-        loadButtonImageClicked = getImage(buttonSpriteSheet.getButtonSpriteSheetBufferedImage(), 480, 224, 31, 31);
+        loadButtonImageClicked = buttonSpriteSheet.getImage(buttonSpriteSheet.getButtonSpriteSheetBufferedImage(), 480, 224, 31, 31);
         loadButtonImageClicked = loadButtonImageClicked.getScaledInstance(93, 93, Image.SCALE_SMOOTH);
         loadButtonImageIconClicked = new ImageIcon(loadButtonImageClicked);
 
-        exitButtonImageClicked = getImage(buttonSpriteSheet.getButtonSpriteSheetBufferedImage(), 416, 192, 31, 31);
+        exitButtonImageClicked = buttonSpriteSheet.getImage(buttonSpriteSheet.getButtonSpriteSheetBufferedImage(), 416, 192, 31, 31);
         exitButtonImageClicked = exitButtonImageClicked.getScaledInstance(93, 93, Image.SCALE_SMOOTH);
         exitButtonImageIconClicked = new ImageIcon(exitButtonImageClicked);
     }
@@ -226,11 +230,6 @@ public class EndUI extends UIElement {
         exitButton.setContentAreaFilled(false);
         exitButton.setBorderPainted(false);
         exitButton.setFocusPainted(false);
-    }
-
-    // EFFECTS: returns a select portion of image.
-    public BufferedImage getImage(BufferedImage image, int x, int y, int w, int h) {
-        return image.getSubimage(x, y, w, h);
     }
 
     // MODIFIES: this
