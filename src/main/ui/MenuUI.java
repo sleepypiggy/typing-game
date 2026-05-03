@@ -1,6 +1,8 @@
 package ui;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -11,6 +13,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.border.Border;
 
 import model.Round;
 import model.UserInfo;
@@ -20,6 +24,8 @@ public class MenuUI extends UIElement {
     private ButtonSpriteSheet buttonSpriteSheet;
 
     private JLabel title;
+    private JPanel titleContainer;
+    private GridBagConstraints titleConstraints;
 
     private Image startButtonImage;
     private ImageIcon startButtonImageIcon;
@@ -53,6 +59,23 @@ public class MenuUI extends UIElement {
         loadButtonClickedImages();
         initButtons();
         layoutButtons();
+        setTitle();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: sets the title text on the menu screen
+    public void setTitle() {
+        title = new JLabel("Typing Game");
+        Font currentFont = title.getFont();
+        title.setFont(currentFont.deriveFont(150f));
+        
+        titleContainer = new JPanel(new GridBagLayout());
+        titleConstraints = new GridBagConstraints();
+
+        titleConstraints.ipady = 300;
+    
+        titleContainer.add(title, titleConstraints);
+        this.add(titleContainer, BorderLayout.NORTH);
     }
 
     // MODIFIES: this
