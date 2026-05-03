@@ -8,6 +8,7 @@ import javax.swing.SwingUtilities;
 
 import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -21,7 +22,7 @@ public class GameUI extends UIElement {
 
     private boolean isEndUICreated;
 
-    private JLabel actualText;
+    private JTextArea actualText;
     private JPanel actualTextContainer;
 
     private JTextField userInput;
@@ -33,20 +34,29 @@ public class GameUI extends UIElement {
         this.currentRound = currentRound;
         this.gameWindow = gameWindow;
         setLayout(new BorderLayout());
-        this.actualText = new JLabel(currentRound.getActualText().toString());
+        this.actualText = new JTextArea(currentRound.getActualText().toString());
         displayActualText();
         displayUserInput();
         userInputAction();
     }
 
+    // MODIFIES: this
+    // EFFECTS: handles everything related to displaying the actual text properly
     public void displayActualText() {
+        actualText.setEditable(false);
+        actualText.setWrapStyleWord(true);
+        actualText.setSize( (int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 1.2), HEIGHT);
+        actualText.setLineWrap(true);
+        actualText.setFocusable(false);
+        actualText.setOpaque(false);
+
         actualTextContainer = new JPanel(new GridBagLayout());
         actualTextContainer.add(this.actualText);
         add(this.actualTextContainer);
     }
 
     public void displayUserInput() {
-        userInput = new JTextField(10);
+        userInput = new JTextField();
         add(userInput, BorderLayout.SOUTH);
         SwingUtilities.invokeLater(() -> {
             userInput.requestFocusInWindow();
