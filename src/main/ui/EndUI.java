@@ -113,6 +113,13 @@ public class EndUI extends UIElement {
     }
 
     // MODIFIES: this
+    // EFFECTS: updates the displayed stats
+    public void updateDisplayedStats(String wpm, String accuracy) {
+        this.wordsPerMinute.setText("Words per minute: " + wpm);
+        this.accuracy.setText("Accuracy: " + accuracy);
+    }
+
+    // MODIFIES: this
     // EFFECTS: creates all the buttons and calls the methods required to initialize their respective logic.
     public void initButtons() {
         addPhraseButton = new JButton(addPhraseButtonImageIcon);
@@ -337,6 +344,8 @@ public class EndUI extends UIElement {
                 currentRound.setRandomLineIndex(currentRound.getNumberOfLines());
                 currentRound.newRound(currentRound.getRandomLineIndex());
                 gameWindow.getGameUI().updateActualTextDisplay(currentRound.getActualText().toString());
+                gameWindow.getGameUI().clearUserInput();
+                gameWindow.getGameUI().focusUserInput();
                 gameWindow.switchToGameUI();
             }
         });

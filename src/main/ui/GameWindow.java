@@ -81,4 +81,8 @@ public class GameWindow extends JFrame {
     public GameUI getGameUI() {
         return this.gameUI;
     }
+
+    public EndUI getEndUI() {
+        return this.endUI;
+    }
 }

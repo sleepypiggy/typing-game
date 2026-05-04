@@ -58,10 +58,7 @@ public class GameUI extends UIElement {
     public void displayUserInput() {
         userInput = new JTextField();
         add(userInput, BorderLayout.SOUTH);
-        SwingUtilities.invokeLater(() -> {
-            userInput.requestFocusInWindow();
-            userInput.selectAll();
-        });
+        focusUserInput();
     }
 
     // MODIFIES: this
@@ -82,6 +79,7 @@ public class GameUI extends UIElement {
                     gameWindow.switchToGameOverUI();
                 } else {
                     gameWindow.switchToGameOverUI();
+                    gameWindow.getEndUI().updateDisplayedStats(String.valueOf(currentRound.getWordsPerMinute()), String.valueOf(currentRound.getAccuracy()));
                 }
             }
         });
@@ -91,6 +89,20 @@ public class GameUI extends UIElement {
     // EFFECTS: changes the actual text displayed in the game
     public void updateActualTextDisplay(String text) {
         this.actualText.setText(text);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: clears the user input (used when user wants to play a new round)
+    public void clearUserInput() {
+        this.userInput.setText("");
+    }
+
+    // EFFECTS: focuses the user's input in the typing area
+    public void focusUserInput() {
+        SwingUtilities.invokeLater(() -> {
+            userInput.requestFocusInWindow();
+            userInput.selectAll();
+        });
     }
 
 }
