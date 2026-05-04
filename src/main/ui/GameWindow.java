@@ -77,4 +77,8 @@ public class GameWindow extends JFrame {
     public void updateCurrentRound(Round currentRound) {
         this.currentRound = currentRound;
     }
+
+    public GameUI getGameUI() {
+        return this.gameUI;
+    }
 }

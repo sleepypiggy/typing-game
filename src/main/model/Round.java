@@ -148,6 +148,22 @@ public class Round {
         this.timeTaken = Double.valueOf(decimalFormat.format(this.timeTaken));
     }
 
+    // MODIFIES: this
+    // EFFECTS: resets the current round to a new one 
+    public void newRound(int randomLineIndex) {
+        try {
+            setActualText(randomLineIndex);
+        } catch (IOException ioe) {
+            System.out.println("Something went wrong. ");
+            ioe.printStackTrace();
+        }
+        this.wordsPerMinute = 0;
+        this.accuracy = 0;
+        this.timeTaken = 0;
+        this.userText = null;
+
+    }
+
     public StringBuilder getActualText() {
         return this.actualText;
     }

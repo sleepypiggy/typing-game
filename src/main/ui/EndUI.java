@@ -66,6 +66,12 @@ public class EndUI extends UIElement {
     private Image exitButtonImageClicked;
     private ImageIcon exitButtonImageIconClicked;
 
+    private JButton newRoundButton;
+    private Image newRoundButtonImage;
+    private ImageIcon newRoundButtonImageIcon;
+    private Image newRoundButtonImageClicked;
+    private ImageIcon newRoundButtonImageIconClicked;
+
     private JPanel buttonLayout;
     private JPanel buttonContainer;
 
@@ -115,6 +121,7 @@ public class EndUI extends UIElement {
         saveButton = new JButton(saveButtonImageIcon);
         loadButton = new JButton(loadButtonImageIcon);
         exitButton = new JButton(exitButtonImageIcon);
+        newRoundButton = new JButton(newRoundButtonImageIcon);
 
         addPhraseButtonLogic();
         removePhraseButtonLogic();
@@ -122,6 +129,7 @@ public class EndUI extends UIElement {
         saveButtonLogic();
         loadButtonLogic();
         exitButtonLogic();
+        newRoundButtonLogic();
 
         addPhraseButton.setPressedIcon(addPhraseButtonImageIconClicked);
         removePhraseButton.setPressedIcon(removePhraseButtonImageIconClicked);
@@ -129,12 +137,13 @@ public class EndUI extends UIElement {
         saveButton.setPressedIcon(saveButtonImageIconClicked);
         loadButton.setPressedIcon(loadButtonImageIconClicked);
         exitButton.setPressedIcon(exitButtonImageIconClicked);
+        newRoundButton.setPressedIcon(newRoundButtonImageIconClicked);
     }
 
     // MODIFIES: this
     // EFFECTS: creates the button layout managers and adds the buttons to them.
     public void initButtonLayout() {
-        buttonLayout = new JPanel(new GridLayout(2, 3, 10, 10));
+        buttonLayout = new JPanel(new GridLayout(2, 4, 10, 10));
         buttonContainer = new JPanel(new GridBagLayout());
 
         buttonLayout.add(addPhraseButton);
@@ -143,6 +152,7 @@ public class EndUI extends UIElement {
         buttonLayout.add(saveButton);
         buttonLayout.add(loadButton);
         buttonLayout.add(exitButton);
+        buttonLayout.add(newRoundButton);
 
         buttonContainer.add(buttonLayout);
         add(buttonContainer, BorderLayout.SOUTH);
@@ -174,6 +184,10 @@ public class EndUI extends UIElement {
         exitButtonImage = buttonSpriteSheet.getImage(buttonSpriteSheet.getButtonSpriteSheetBufferedImage(), 384, 192, 31, 31);
         exitButtonImage = exitButtonImage.getScaledInstance(93, 93, Image.SCALE_SMOOTH);
         exitButtonImageIcon = new ImageIcon(exitButtonImage);
+
+        newRoundButtonImage = buttonSpriteSheet.getImage(buttonSpriteSheet.getButtonSpriteSheetBufferedImage(), 384, 256, 31, 31);
+        newRoundButtonImage = newRoundButtonImage.getScaledInstance(93, 93, Image.SCALE_SMOOTH);
+        newRoundButtonImageIcon = new ImageIcon(newRoundButtonImage);
     }
 
     // MODIFIE: this
@@ -202,6 +216,10 @@ public class EndUI extends UIElement {
         exitButtonImageClicked = buttonSpriteSheet.getImage(buttonSpriteSheet.getButtonSpriteSheetBufferedImage(), 416, 192, 31, 31);
         exitButtonImageClicked = exitButtonImageClicked.getScaledInstance(93, 93, Image.SCALE_SMOOTH);
         exitButtonImageIconClicked = new ImageIcon(exitButtonImageClicked);
+
+        newRoundButtonImageClicked = buttonSpriteSheet.getImage(buttonSpriteSheet.getButtonSpriteSheetBufferedImage(), 416, 256, 31, 31);
+        newRoundButtonImageClicked = newRoundButtonImageClicked.getScaledInstance(93, 93, Image.SCALE_SMOOTH);
+        newRoundButtonImageIconClicked = new ImageIcon(newRoundButtonImageClicked);
     }
 
     // MODIFIES: this
@@ -230,6 +248,10 @@ public class EndUI extends UIElement {
         exitButton.setContentAreaFilled(false);
         exitButton.setBorderPainted(false);
         exitButton.setFocusPainted(false);
+
+        newRoundButton.setContentAreaFilled(false);
+        newRoundButton.setBorderPainted(false);
+        newRoundButton.setFocusPainted(false);
     }
 
     // MODIFIES: this
@@ -302,6 +324,20 @@ public class EndUI extends UIElement {
                     le.printStackTrace();
                 }
                 System.exit(0);
+            }
+        });
+    }
+
+    // MODIFIES: this
+    // EFFECTS: handles what the newRoundButton does on click
+    public void newRoundButtonLogic() {
+        newRoundButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                currentRound.setRandomLineIndex(currentRound.getNumberOfLines());
+                currentRound.newRound(currentRound.getRandomLineIndex());
+                gameWindow.getGameUI().updateActualTextDisplay(currentRound.getActualText().toString());
+                gameWindow.switchToGameUI();
             }
         });
     }

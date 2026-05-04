@@ -87,4 +87,10 @@ public class GameUI extends UIElement {
         });
     }
 
+    // MODIFIES: this
+    // EFFECTS: changes the actual text displayed in the game
+    public void updateActualTextDisplay(String text) {
+        this.actualText.setText(text);
+    }
+
 }
