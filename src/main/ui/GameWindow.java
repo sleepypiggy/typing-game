@@ -43,7 +43,7 @@ public class GameWindow extends JFrame {
 
         setExtendedState(Frame.MAXIMIZED_BOTH);
         setVisible(true);
-        setResizable(false);
+        setResizable(true);
 
         add(mainPanel);
     }

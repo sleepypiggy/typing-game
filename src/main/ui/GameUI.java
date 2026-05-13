@@ -7,6 +7,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -26,7 +27,8 @@ public class GameUI extends UIElement {
     private JPanel actualTextContainer;
 
     private JTextField userInput;
-    
+    private JPanel userInputContainer;
+    private GridBagConstraints userInputContainerConstraints;
 
     public GameUI(TypingGame typingGame, Round currentRound, UserInfo userInfo, GameWindow gameWindow) {
         super(typingGame, currentRound, userInfo);
@@ -56,8 +58,13 @@ public class GameUI extends UIElement {
     }
 
     public void displayUserInput() {
-        userInput = new JTextField();
-        add(userInput, BorderLayout.SOUTH);
+        userInputContainerConstraints = new GridBagConstraints();
+        userInput = new JTextField(60);
+        userInputContainer = new JPanel(new GridBagLayout());
+
+        userInputContainer.add(userInput, userInputContainerConstraints);
+
+        add(userInputContainer, BorderLayout.SOUTH);
         focusUserInput();
     }
 
@@ -89,6 +96,15 @@ public class GameUI extends UIElement {
     // EFFECTS: changes the actual text displayed in the game
     public void updateActualTextDisplay(String text) {
         this.actualText.setText(text);
+    }
+
+    // TODO: might not get used
+    // MODIFIES: this
+    // EFFECTS: changes the size of the user input area
+    public void updateUserInputArea() {
+        //userInput.setColumns(currentRound.getActualText().toString().length());
+        userInput.setColumns(60);
+
     }
 
     // MODIFIES: this
