@@ -3,6 +3,7 @@ package ui;
 import model.Round;
 import model.UserInfo;
 import model.exception.LogException;
+import model.Event;
 import model.EventLog;
 
 import java.awt.BorderLayout;
@@ -341,11 +342,14 @@ public class EndUI extends UIElement {
         newRoundButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                EventLog.getInstance().logEvent(new Event("New round started. "));
                 currentRound.setRandomLineIndex(currentRound.getNumberOfLines());
                 currentRound.newRound(currentRound.getRandomLineIndex());
+                gameWindow.getGameUI().updateUserInputArea();
                 gameWindow.getGameUI().updateActualTextDisplay(currentRound.getActualText().toString());
                 gameWindow.getGameUI().clearUserInput();
                 gameWindow.getGameUI().focusUserInput();
+                currentRound.startRoundTime();
                 gameWindow.switchToGameUI();
             }
         });
