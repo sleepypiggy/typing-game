@@ -2,21 +2,20 @@ package ui;
 
 import model.Round;
 import model.UserInfo;
+import model.exception.AccuracyException;
 import model.exception.LogException;
 import model.Event;
 import model.EventLog;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
@@ -30,6 +29,8 @@ public class EndUI extends UIElement {
 
     private GameWindow gameWindow;
     private Round currentRound;
+    private UserInfo userInfo;
+    private TypingGame typingGame;
 
     private JButton addPhraseButton;
     private Image addPhraseButtonImage;
@@ -73,13 +74,26 @@ public class EndUI extends UIElement {
     private Image newRoundButtonImageClicked;
     private ImageIcon newRoundButtonImageIconClicked;
 
-    private JPanel buttonLayout;
-    private JPanel buttonContainer;
-
     private JLabel wordsPerMinute;
     private JLabel accuracy;
-    private JPanel statsContainer;
-    private JPanel statsContainerLayout;
+
+    private JLabel savedPhrasesLabel;
+    private JTextArea savedPhrases;
+    private JScrollPane scroll;
+    private JPanel savedPhrasesContainer;
+    private GridBagConstraints savedPhrasesLabelContraints;
+    private GridBagConstraints savedPhrasesConstraints;
+
+    private JPanel iconContainer;
+    private GridBagConstraints wordsPerMinuteConstraints;
+    private GridBagConstraints accuracyConstraints;
+    private GridBagConstraints addPhraseButtonConstraints;
+    private GridBagConstraints removePhraseButtonConstraints;
+    private GridBagConstraints viewPhraseButtonConstraints;
+    private GridBagConstraints saveButtonConstraints;
+    private GridBagConstraints loadButtonConstraints;
+    private GridBagConstraints exitButtonConstraints;
+    private GridBagConstraints newRoundButtonConstraints;
 
     // EFFECTS: initializes the typingGame, the current round, and all the user information. Also sets the layout
     //          of this, initializes the buttons as well as their layouts, and adds an image to the window.
@@ -88,35 +102,146 @@ public class EndUI extends UIElement {
         this.buttonSpriteSheet = buttonSpriteSheet;
         this.gameWindow = gameWindow;
         this.currentRound = currentRound;
+        this.userInfo = userInfo;
+        this.typingGame = typingGame;
         setLayout(new BorderLayout());
         loadButtonImages();
         loadButtonClickedImages();
         initButtons();
         hideOriginalButtonBackground();
-        initButtonLayout();
         displayStats();
+        displayImageIcons();
+        initJList();
+    }
+
+    public void initJList() {
+        savedPhrasesLabel  = new JLabel("Saved Phrases");
+
+        savedPhrasesLabelContraints = new GridBagConstraints();
+        savedPhrasesConstraints = new GridBagConstraints();
+        savedPhrasesContainer = new JPanel(new GridBagLayout());
+        setGridBagConstraintsGridPosition(savedPhrasesLabelContraints, 0, 0);
+        setGridBagConstraintsGridPosition(savedPhrasesConstraints, 0, 1);
+        savedPhrasesLabelContraints.weightx = 0;
+        savedPhrasesLabelContraints.weighty = 0;
+        savedPhrasesLabelContraints.fill = GridBagConstraints.NONE;
+
+        savedPhrases = new JTextArea(10, 30);
+        scroll = new JScrollPane(savedPhrases);
+
+        savedPhrasesConstraints.weightx = 1.0;
+        savedPhrasesConstraints.weighty = 1.0;
+        savedPhrasesConstraints.fill = GridBagConstraints.BOTH;
+
+        savedPhrases.setEditable(false);
+        savedPhrases.setWrapStyleWord(true);
+        savedPhrases.setFocusable(false);
+        savedPhrases.setLineWrap(true);
+        savedPhrases.setOpaque(false);
+
+        savedPhrasesContainer.add(savedPhrasesLabel, savedPhrasesLabelContraints);
+        savedPhrasesContainer.add(scroll, savedPhrasesConstraints);
+        add(savedPhrasesContainer, BorderLayout.EAST);
+    }
+
+    public void displayImageIcons() {
+        iconContainer = new JPanel(new GridBagLayout());
+        initGridBagConstraints();
+
+        setGridBagConstraintsGridPosition(wordsPerMinuteConstraints, 0, 0);
+        setGridBagConstraintsGridPosition(accuracyConstraints, 0, 1);
+        setGridBagConstraintsGridPosition(addPhraseButtonConstraints, 0, 2);
+        setGridBagConstraintsGridPosition(removePhraseButtonConstraints, 1, 2);
+        setGridBagConstraintsGridPosition(viewPhraseButtonConstraints, 0, 3);
+        setGridBagConstraintsGridPosition(saveButtonConstraints, 1, 3);
+        setGridBagConstraintsGridPosition(loadButtonConstraints, 0, 4);
+        setGridBagConstraintsGridPosition(exitButtonConstraints, 1, 4);
+        setGridBagConstraintsGridPosition(newRoundButtonConstraints, 0, 5);
+
+        wordsPerMinuteConstraints.gridwidth = 2;
+        accuracyConstraints.gridwidth = 2;
+        accuracyConstraints.anchor = GridBagConstraints.WEST;
+
+        setGridBagConstraintInsets(wordsPerMinuteConstraints, 0, 20, 0, 0);
+        setGridBagConstraintInsets(accuracyConstraints, 0, 20, 0, 0);
+        setGridBagConstraintInsets(addPhraseButtonConstraints, 0, 20, 0, 0);
+        setGridBagConstraintInsets(removePhraseButtonConstraints, 0, 20, 0, 0);
+        setGridBagConstraintInsets(viewPhraseButtonConstraints, 0, 20, 0, 0);
+        setGridBagConstraintInsets(saveButtonConstraints, 0, 20, 0, 0);
+        setGridBagConstraintInsets(loadButtonConstraints, 0, 20, 0, 0);
+        setGridBagConstraintInsets(exitButtonConstraints, 0, 20, 0, 0);
+        setGridBagConstraintInsets(newRoundButtonConstraints, 0, 20, 0, 0);
+
+        wordsPerMinuteConstraints.weightx = 1;
+        wordsPerMinuteConstraints.fill = GridBagConstraints.HORIZONTAL;
+
+        removePhraseButtonConstraints.anchor = GridBagConstraints.WEST;
+        saveButtonConstraints.anchor = GridBagConstraints.WEST;
+        exitButtonConstraints.anchor = GridBagConstraints.WEST;
+
+        addElementsToIconContainer();
+
+        add(iconContainer, BorderLayout.WEST);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: initializes the GridBagConstraints for each element
+    public void initGridBagConstraints() {
+        wordsPerMinuteConstraints = new GridBagConstraints();
+        accuracyConstraints = new GridBagConstraints();
+        addPhraseButtonConstraints = new GridBagConstraints();
+        removePhraseButtonConstraints = new GridBagConstraints();
+        viewPhraseButtonConstraints = new GridBagConstraints();
+        saveButtonConstraints = new GridBagConstraints();
+        loadButtonConstraints = new GridBagConstraints();
+        exitButtonConstraints = new GridBagConstraints();
+        newRoundButtonConstraints = new GridBagConstraints();
+    }
+
+    public void addElementsToIconContainer() {
+        iconContainer.add(wordsPerMinute, wordsPerMinuteConstraints);
+        iconContainer.add(accuracy, accuracyConstraints);
+        iconContainer.add(addPhraseButton, addPhraseButtonConstraints);
+        iconContainer.add(removePhraseButton, removePhraseButtonConstraints);
+        iconContainer.add(viewPhraseButton, viewPhraseButtonConstraints);
+        iconContainer.add(saveButton, saveButtonConstraints);
+        iconContainer.add(loadButton, loadButtonConstraints);
+        iconContainer.add(exitButton, exitButtonConstraints);
+        iconContainer.add(newRoundButton, newRoundButtonConstraints);
+    }
+
+    // EFFECTS: creates new Insets for gbc
+    public void setGridBagConstraintInsets(GridBagConstraints gbc, int top, int left, int bottom, int right) {
+        gbc.insets = new Insets(top, left, bottom, right);
+    }
+
+
+    // MODIFIES: this
+    // EFFECTS: sets the gridx and gridy position of gbc to x and y
+    public void setGridBagConstraintsGridPosition(GridBagConstraints gbc, int x, int y) {
+        gbc.gridx = x;
+        gbc.gridy = y;
     }
 
     // MODIFIES: this
     // EFFECTS: displays the words per minute and accuracy on screen
     private void displayStats() {
-        wordsPerMinute = new JLabel("Words per minute: " + String.valueOf(currentRound.getWordsPerMinute()));
-        accuracy = new JLabel("Accuracy: " + String.valueOf(currentRound.getAccuracy()));
-
-        statsContainer = new JPanel(new GridLayout(2, 1));
-        statsContainerLayout = new JPanel(new GridBagLayout());
-        
-        statsContainer.add(wordsPerMinute);
-        statsContainer.add(accuracy);
-        statsContainerLayout.add(statsContainer);
-
-        add(statsContainerLayout, BorderLayout.NORTH);
+        if (currentRound.getAccuracy() < 60) {
+            wordsPerMinute = new JLabel("Words per minute: " + String.valueOf(currentRound.getWordsPerMinute() + " (invalid)"));
+        } else {
+            wordsPerMinute = new JLabel("Words per minute: " + String.valueOf(currentRound.getWordsPerMinute()));
+        }
+        accuracy = new JLabel("Accuracy: " + String.valueOf(currentRound.getAccuracy()) + "%");
     }
 
     // MODIFIES: this
     // EFFECTS: updates the displayed stats
-    public void updateDisplayedStats(String wpm, String accuracy) {
-        this.wordsPerMinute.setText("Words per minute: " + wpm);
+    public void updateDisplayedStats(double wpm, double accuracy) {
+        if (accuracy < 60) {
+            this.wordsPerMinute.setText("Words per minute: " + wpm + " (invalid)");
+        } else {
+            this.wordsPerMinute.setText("Words per minute: " + wpm);
+        }
         this.accuracy.setText("Accuracy: " + accuracy);
     }
 
@@ -130,6 +255,14 @@ public class EndUI extends UIElement {
         loadButton = new JButton(loadButtonImageIcon);
         exitButton = new JButton(exitButtonImageIcon);
         newRoundButton = new JButton(newRoundButtonImageIcon);
+
+        addPhraseButton.setPreferredSize(new Dimension(93, 93));
+        removePhraseButton.setPreferredSize(new Dimension(93, 93));
+        viewPhraseButton.setPreferredSize(new Dimension(93, 93));
+        saveButton.setPreferredSize(new Dimension(93, 93));
+        loadButton.setPreferredSize(new Dimension(93, 93));
+        exitButton.setPreferredSize(new Dimension(93, 93));
+        newRoundButton.setPreferredSize(new Dimension(93, 93));
 
         addPhraseButtonLogic();
         removePhraseButtonLogic();
@@ -146,24 +279,6 @@ public class EndUI extends UIElement {
         loadButton.setPressedIcon(loadButtonImageIconClicked);
         exitButton.setPressedIcon(exitButtonImageIconClicked);
         newRoundButton.setPressedIcon(newRoundButtonImageIconClicked);
-    }
-
-    // MODIFIES: this
-    // EFFECTS: creates the button layout managers and adds the buttons to them.
-    public void initButtonLayout() {
-        buttonLayout = new JPanel(new GridLayout(2, 4, 10, 10));
-        buttonContainer = new JPanel(new GridBagLayout());
-
-        buttonLayout.add(addPhraseButton);
-        buttonLayout.add(removePhraseButton);
-        buttonLayout.add(viewPhraseButton);
-        buttonLayout.add(saveButton);
-        buttonLayout.add(loadButton);
-        buttonLayout.add(exitButton);
-        buttonLayout.add(newRoundButton);
-
-        buttonContainer.add(buttonLayout);
-        add(buttonContainer, BorderLayout.SOUTH);
     }
 
     // MODIFIES: this
@@ -269,6 +384,7 @@ public class EndUI extends UIElement {
             @Override
             public void actionPerformed(ActionEvent e) {
                 getTypingGame().savePhrase();
+                savedPhrases.setText(typingGame.getUserInfo().getSavedPhrasesToView());
             }
         });
     }
@@ -280,6 +396,7 @@ public class EndUI extends UIElement {
             @Override
             public void actionPerformed(ActionEvent e) {
                 getTypingGame().getUserInfo().removeSavedPhraseUIVersion();
+                savedPhrases.setText(typingGame.getUserInfo().getSavedPhrasesToView());
             }
         });
     }
@@ -313,6 +430,7 @@ public class EndUI extends UIElement {
             @Override
             public void actionPerformed(ActionEvent e) {
                 getTypingGame().loadUserInfo();
+                savedPhrases.setText(typingGame.getUserInfo().getSavedPhrasesToView());
             }
         });
     }

@@ -86,7 +86,7 @@ public class GameUI extends UIElement {
                     gameWindow.switchToGameOverUI();
                 } else {
                     gameWindow.switchToGameOverUI();
-                    gameWindow.getEndUI().updateDisplayedStats(String.valueOf(currentRound.getWordsPerMinute()), String.valueOf(currentRound.getAccuracy()));
+                    gameWindow.getEndUI().updateDisplayedStats(currentRound.getWordsPerMinute(), currentRound.getAccuracy());
                 }
             }
         });

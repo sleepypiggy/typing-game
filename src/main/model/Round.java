@@ -4,6 +4,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Random;
+
+import model.exception.AccuracyException;
+
 import java.text.DecimalFormat;
 
 
@@ -177,7 +180,7 @@ public class Round {
     }
 
     public double getAccuracy() {
-        return accuracy;
+        return this.accuracy;
     }
 
     public double getTimeTaken() {
