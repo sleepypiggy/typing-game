@@ -36,7 +36,8 @@ public class GameUI extends UIElement {
         this.currentRound = currentRound;
         this.gameWindow = gameWindow;
         setLayout(new BorderLayout());
-        this.actualText = new JTextArea(currentRound.getActualText().toString());
+        this.actualText = new JTextArea(5, 80);
+        this.actualText.setText(currentRound.getActualText().toString());
         displayActualText();
         displayUserInput();
         userInputAction();
@@ -47,7 +48,7 @@ public class GameUI extends UIElement {
     public void displayActualText() {
         actualText.setEditable(false);
         actualText.setWrapStyleWord(true);
-        actualText.setSize( (int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 1.2), HEIGHT);
+        //actualText.setSize( (int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 1.2), HEIGHT);
         actualText.setLineWrap(true);
         actualText.setFocusable(false);
         actualText.setOpaque(false);
@@ -60,6 +61,7 @@ public class GameUI extends UIElement {
     public void displayUserInput() {
         userInputContainerConstraints = new GridBagConstraints();
         userInput = new JTextField(60);
+        userInput.setOpaque(false);
         userInputContainer = new JPanel(new GridBagLayout());
 
         userInputContainer.add(userInput, userInputContainerConstraints);

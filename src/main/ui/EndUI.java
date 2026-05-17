@@ -2,7 +2,6 @@ package ui;
 
 import model.Round;
 import model.UserInfo;
-import model.exception.AccuracyException;
 import model.exception.LogException;
 import model.Event;
 import model.EventLog;

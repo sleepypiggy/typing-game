@@ -1,4 +1,4 @@
-package persistance;
+package persistence;
 
 import model.UserInfo;
 import persistence.JsonReader;

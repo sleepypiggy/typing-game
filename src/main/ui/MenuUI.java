@@ -1,11 +1,15 @@
 package ui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -13,6 +17,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
 
@@ -23,8 +28,7 @@ import model.UserInfo;
 public class MenuUI extends UIElement {
     private ButtonSpriteSheet buttonSpriteSheet;
 
-    private JLabel title;
-    private JPanel titleContainer;
+    private JTextArea title;
     private GridBagConstraints titleConstraints;
 
     private Image startButtonImage;
@@ -43,9 +47,12 @@ public class MenuUI extends UIElement {
     private Round currentRound;
 
     private JButton startButton;
+    private GridBagConstraints startButtonConstraints;
     private JButton exitButton;
+    private GridBagConstraints exitButtonConstraints;
+
     private JPanel buttonLayout;
-    private JPanel buttonContainer;
+    private JPanel elementContainer;
 
     // EFFECTS: initializes all the components needed for the menu to run properly.
     public MenuUI(TypingGame typingGame, Round currentRound, UserInfo userInfo, ButtonSpriteSheet buttonSpriteSheet, GameWindow gamewindow) {
@@ -58,24 +65,32 @@ public class MenuUI extends UIElement {
         loadButtonImages();
         loadButtonClickedImages();
         initButtons();
-        layoutButtons();
         setTitle();
+        layoutElements();
+        //changeBackground();
+    }
+
+    public void changeBackground() {
+        //titleContainer.setOpaque(false);
+        elementContainer.setOpaque(false);
+        buttonLayout.setOpaque(false);
+        startButton.setOpaque(false);
+        exitButton.setOpaque(false);
+        this.setBackground(new Color(227, 176, 122));
     }
 
     // MODIFIES: this
     // EFFECTS: sets the title text on the menu screen
     public void setTitle() {
-        title = new JLabel("Typing Game");
+        title = new JTextArea(2, 5);
+        title.setText("Typing Game");
+        title.setLineWrap(true);
+        title.setWrapStyleWord(true);
+        title.setFocusable(false);
+        title.setOpaque(false);
         Font currentFont = title.getFont();
         title.setFont(currentFont.deriveFont(150f));
-        
-        titleContainer = new JPanel(new GridBagLayout());
-        titleConstraints = new GridBagConstraints();
-
-        titleConstraints.ipady = 300;
-    
-        titleContainer.add(title, titleConstraints);
-        this.add(titleContainer, BorderLayout.NORTH);
+        title.setOpaque(false);
     }
 
     // MODIFIES: this
@@ -93,19 +108,48 @@ public class MenuUI extends UIElement {
         this.exitButton.setPressedIcon(quitButtonImageIconClicked);
     }
 
-    // MODIFIES: this
-    // EFFECTS: handles the layout of the buttons on screen
-    public void layoutButtons() {
-        buttonLayout = new JPanel(new GridLayout(2, 1));
-        buttonContainer = new JPanel(new GridBagLayout());
+    public void layoutElements() {
+        elementContainer = new JPanel(new GridBagLayout());
+        titleConstraints = new GridBagConstraints();
+        startButtonConstraints = new GridBagConstraints();
+        exitButtonConstraints = new GridBagConstraints();
 
-        buttonLayout.add(startButton);
-        buttonLayout.add(exitButton);
+        titleConstraints.gridx = 0;
+        titleConstraints.gridy = 0;
 
-        buttonContainer.add(buttonLayout);
+        startButtonConstraints.gridx = 0;
+        startButtonConstraints.gridy = 1;
+        startButtonConstraints.anchor = GridBagConstraints.WEST;
+
+        exitButtonConstraints.gridx = 0;
+        exitButtonConstraints.gridy = 2;
+        exitButtonConstraints.anchor = GridBagConstraints.WEST;
+
+        titleConstraints.insets = new Insets(0, 50, 0, 0);
+        startButtonConstraints.insets = new Insets(0, 50, 0, 0);
+        exitButtonConstraints.insets = new Insets(0, 50, 0, 0);
         
-        this.add(buttonContainer);
+
+        elementContainer.add(title, titleConstraints);
+        elementContainer.add(startButton, startButtonConstraints);
+        elementContainer.add(exitButton, exitButtonConstraints);
+
+        add(elementContainer, BorderLayout.WEST);
     }
+
+    // // MODIFIES: this
+    // // EFFECTS: handles the layout of the buttons on screen
+    // public void layoutButtons() {
+    //     buttonLayout = new JPanel(new GridLayout(2, 1));
+    //     buttonContainer = new JPanel(new GridBagLayout());
+
+    //     buttonLayout.add(startButton);
+    //     buttonLayout.add(exitButton);
+
+    //     buttonContainer.add(buttonLayout);
+        
+    //     this.add(buttonContainer);
+    // }
 
     // EFFECTS: what the start button on screen does when clicked
     public void startButtonAction() {
@@ -144,7 +188,7 @@ public class MenuUI extends UIElement {
         startButtonImageIcon = new ImageIcon(startButtonImage);
 
         quitButtonImage = buttonSpriteSheet.getImage(buttonSpriteSheet.getButtonSpriteSheetBufferedImage(), 385, 448, 62, 31);
-        quitButtonImage = quitButtonImage.getScaledInstance(186, 93, Image.SCALE_SMOOTH);
+        quitButtonImage = quitButtonImage.getScaledInstance(124, 62, Image.SCALE_SMOOTH);
         quitButtonImageIcon = new ImageIcon(quitButtonImage);
     }
 
@@ -156,7 +200,7 @@ public class MenuUI extends UIElement {
         startButtonImageIconClicked = new ImageIcon(startButtonImageClicked);
 
         quitButtonImageClicked = buttonSpriteSheet.getImage(buttonSpriteSheet.getButtonSpriteSheetBufferedImage(), 513, 448, 62, 31);
-        quitButtonImageClicked = quitButtonImageClicked.getScaledInstance(186, 93, Image.SCALE_SMOOTH);
+        quitButtonImageClicked = quitButtonImageClicked.getScaledInstance(124, 62, Image.SCALE_SMOOTH);
         quitButtonImageIconClicked = new ImageIcon(quitButtonImageClicked);
     }
 
