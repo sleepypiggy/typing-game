@@ -5,6 +5,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
@@ -16,6 +18,8 @@ import java.awt.event.ActionListener;
 import model.Round;
 import model.UserInfo;
 
+// TODO: make the timer only start when input is detected from user.
+
 public class GameUI extends UIElement {
     private Round currentRound;
     private UserInfo userInfo;
@@ -26,6 +30,8 @@ public class GameUI extends UIElement {
     private JTextArea actualText;
     private JPanel actualTextContainer;
 
+    private boolean userInputtedSomething;
+
     private JTextField userInput;
     private JPanel userInputContainer;
     private GridBagConstraints userInputContainerConstraints;
@@ -33,6 +39,7 @@ public class GameUI extends UIElement {
     public GameUI(TypingGame typingGame, Round currentRound, UserInfo userInfo, GameWindow gameWindow) {
         super(typingGame, currentRound, userInfo);
         isEndUICreated = false;
+        userInputtedSomething = false;
         this.currentRound = currentRound;
         this.gameWindow = gameWindow;
         setLayout(new BorderLayout());
@@ -41,6 +48,34 @@ public class GameUI extends UIElement {
         displayActualText();
         displayUserInput();
         userInputAction();
+        detectUserInput();
+    }
+
+    public void detectUserInput() {
+        userInput.getDocument().addDocumentListener(new DocumentListener() {
+            public void changedUpdate(DocumentEvent e) {
+                if (!userInputtedSomething) {
+                    userInputtedSomething = true;
+                    currentRound.startRoundTime();
+                }
+            }
+            public void removeUpdate(DocumentEvent e) {
+                if (!userInputtedSomething) {
+                    userInputtedSomething = true;
+                    currentRound.startRoundTime();
+                }
+            }
+            public void insertUpdate(DocumentEvent e) {
+                if (!userInputtedSomething) {
+                    userInputtedSomething = true;
+                    currentRound.startRoundTime();
+                }
+            }
+        });
+    }
+
+    public void resetUserInputtedSomething() {
+        userInputtedSomething = false;
     }
 
     // MODIFIES: this
@@ -48,7 +83,6 @@ public class GameUI extends UIElement {
     public void displayActualText() {
         actualText.setEditable(false);
         actualText.setWrapStyleWord(true);
-        //actualText.setSize( (int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 1.2), HEIGHT);
         actualText.setLineWrap(true);
         actualText.setFocusable(false);
         actualText.setOpaque(false);

@@ -173,7 +173,6 @@ public class TypingGame {
         System.out.println("Type this phrase as quickly and as accurately as you can: ");
         System.out.println(round.getActualText());
         countdown(3);
-        round.startRoundTime();
         System.out.print("\r> ");
         userInput = new StringBuilder(scanner.nextLine());
         round.setElapsedTime();
