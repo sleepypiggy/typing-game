@@ -1,7 +1,6 @@
 package ui;
 
 import java.awt.Font;
-import java.io.File;
 import java.io.InputStream;
 
 import javax.swing.UIManager;

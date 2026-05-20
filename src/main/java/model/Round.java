@@ -138,7 +138,7 @@ public class Round {
     // MODIFIES: this
     // EFFECTS: sets startTime to the current time in the system as determined by clock.
     public void startRoundTime() {
-        startTime = clock.nanotimeClock();
+        this.startTime = clock.nanotimeClock();
     }
 
     // MODIFIES: this
@@ -162,7 +162,6 @@ public class Round {
         this.accuracy = 0;
         this.timeTaken = 0;
         this.userText = null;
-
     }
 
     public StringBuilder getActualText() {
