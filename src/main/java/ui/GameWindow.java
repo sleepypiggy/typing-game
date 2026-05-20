@@ -15,7 +15,6 @@ public class GameWindow extends JFrame {
     private TypingGame typingGame;
     private Round currentRound;
     private UserInfo userInfo;
-    private ButtonSpriteSheet buttonSpriteSheet;
 
     private CardLayout cardLayout;
     private JPanel mainPanel;
@@ -30,8 +29,7 @@ public class GameWindow extends JFrame {
         this.typingGame = typingGame;
         this.currentRound = currentRound;
         this.userInfo = userInfo;
-        this.buttonSpriteSheet = new ButtonSpriteSheet();
-        menuUI = new MenuUI(typingGame, currentRound, userInfo, this.buttonSpriteSheet, this);
+        menuUI = new MenuUI(typingGame, currentRound, userInfo, this);
 
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
@@ -65,7 +63,7 @@ public class GameWindow extends JFrame {
     // MODIFIES: this
     // EFFECTS: creates the UI that displays the end screen area
     public void createEndUI() {
-        this.endUI = new EndUI(typingGame, currentRound, userInfo, buttonSpriteSheet, this);
+        this.endUI = new EndUI(typingGame, currentRound, userInfo, this);
         mainPanel.add(endUI, "end");
     }
 
