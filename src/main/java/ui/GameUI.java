@@ -1,5 +1,6 @@
 package ui;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -9,8 +10,11 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,6 +28,8 @@ public class GameUI extends UIElement {
     private Round currentRound;
     private UserInfo userInfo;
     private GameWindow gameWindow;
+
+    private ImageIcon backgroundImage;
 
     private boolean isEndUICreated;
 
@@ -49,26 +55,43 @@ public class GameUI extends UIElement {
         displayUserInput();
         userInputAction();
         detectUserInput();
+        initBackgroundImage();
+    }
+
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(backgroundImage.getImage(), 0, 0, getWidth(), getHeight(), this);
+    }
+
+    public void initBackgroundImage() {
+        backgroundImage = new ImageIcon("./data/background3.gif");
     }
 
     public void detectUserInput() {
         userInput.getDocument().addDocumentListener(new DocumentListener() {
             public void changedUpdate(DocumentEvent e) {
                 if (!userInputtedSomething) {
+                    System.out.println(userInputtedSomething + "1");
                     userInputtedSomething = true;
                     currentRound.startRoundTime();
+                    System.out.println(userInputtedSomething + "2");
                 }
             }
             public void removeUpdate(DocumentEvent e) {
                 if (!userInputtedSomething) {
+                    System.out.println(userInputtedSomething + "3");
                     userInputtedSomething = true;
                     currentRound.startRoundTime();
+                    System.out.println(userInputtedSomething + "4");
                 }
             }
             public void insertUpdate(DocumentEvent e) {
                 if (!userInputtedSomething) {
+                    System.out.println(userInputtedSomething + "5");
                     userInputtedSomething = true;
                     currentRound.startRoundTime();
+                    System.out.println(userInputtedSomething + "6");
                 }
             }
         });
@@ -86,17 +109,23 @@ public class GameUI extends UIElement {
         actualText.setLineWrap(true);
         actualText.setFocusable(false);
         actualText.setOpaque(false);
+        actualText.setForeground(Color.WHITE);
 
         actualTextContainer = new JPanel(new GridBagLayout());
         actualTextContainer.add(this.actualText);
+        actualTextContainer.setOpaque(false);
         add(this.actualTextContainer);
     }
 
     public void displayUserInput() {
         userInputContainerConstraints = new GridBagConstraints();
-        userInput = new JTextField(60);
+        userInput = new JTextField(80);
         userInput.setOpaque(false);
+        userInput.setForeground(Color.WHITE);
         userInputContainer = new JPanel(new GridBagLayout());
+        userInputContainer.setOpaque(false);
+
+        userInputContainerConstraints.insets = new Insets(0, 0, 50, 0);
 
         userInputContainer.add(userInput, userInputContainerConstraints);
 
