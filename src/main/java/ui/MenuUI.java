@@ -2,31 +2,20 @@ package ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.UIManager;
-import javax.swing.border.Border;
 
 import model.Round;
 import model.UserInfo;
@@ -48,18 +37,15 @@ public class MenuUI extends UIElement {
     private JButton exitButton;
     private GridBagConstraints exitButtonConstraints;
 
-    private JPanel buttonLayout;
     private JPanel elementContainer;
 
     // EFFECTS: initializes all the components needed for the menu to run properly.
-    public MenuUI(TypingGame typingGame, Round currentRound, UserInfo userInfo, ButtonSpriteSheet buttonSpriteSheet, GameWindow gamewindow) {
+    public MenuUI(TypingGame typingGame, Round currentRound, UserInfo userInfo, GameWindow gamewindow) {
         super(typingGame, currentRound, userInfo);
         isGameUICreated = false;
         this.gameWindow = gamewindow;
         this.currentRound = currentRound;
         setLayout(new BorderLayout());
-        //loadButtonImages();
-        //loadButtonClickedImages();
         initButtons();
         setTitle();
         layoutElements();
@@ -92,7 +78,7 @@ public class MenuUI extends UIElement {
         title.setOpaque(false);
         Font currentFont = title.getFont();
         title.setFont(currentFont.deriveFont(150f));
-        title.setForeground(new Color(0, 0, 0, 255));
+        title.setForeground(Color.WHITE);
     }
 
     // MODIFIES: this
@@ -102,8 +88,8 @@ public class MenuUI extends UIElement {
         this.exitButton = new JButton("Exit");
         hideOriginalButton(startButton);
         hideOriginalButton(exitButton);
-        this.startButton.setForeground(new Color(25, 25, 25));
-        this.exitButton.setForeground(new Color(25, 25, 25));
+        this.startButton.setForeground(Color.WHITE);
+        this.exitButton.setForeground(Color.WHITE);
         this.startButton.setFont(this.startButton.getFont().deriveFont(50.0f));
         this.exitButton.setFont(this.startButton.getFont().deriveFont(30.0f));
 
@@ -117,24 +103,24 @@ public class MenuUI extends UIElement {
         this.startButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                startButton.setForeground(Color.BLACK);
+                startButton.setForeground(new Color(215, 215, 215));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                startButton.setForeground(new Color(25, 25, 25));
+                startButton.setForeground(Color.WHITE);
             }
         });
 
         this.exitButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                exitButton.setForeground(Color.BLACK);
+                exitButton.setForeground(new Color(215, 215, 215));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                exitButton.setForeground(new Color(25, 25, 25));
+                exitButton.setForeground(Color.WHITE);
             }
         });
     }
