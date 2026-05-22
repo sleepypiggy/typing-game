@@ -106,7 +106,8 @@ public class GameUI extends UIElement {
         actualText.setWrapStyleWord(true);
         actualText.setLineWrap(true);
         actualText.setFocusable(false);
-        actualText.setOpaque(false);
+        actualText.setOpaque(true);
+        actualText.setBackground(new Color(25, 25, 25, 125));
         actualText.setForeground(Color.WHITE);
 
         actualTextContainer = new JPanel(new GridBagLayout());
