@@ -16,8 +16,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 
 import javax.swing.*;
+
+// TODO more functinality:
+// - remove quotes from the quote pool
+// - add music and sfx
 
 // This class displays all the UI elements for anything that is on the end screen, including things like
 // the buttons, and the saved phrases (if the button to view saved phrases is clicked).
@@ -34,8 +43,9 @@ public class EndUI extends UIElement {
     private JButton viewPhraseButton;
     private JButton saveButton;
     private JButton loadButton;
-    private JButton exitButton;
+    private JButton addCustomQuoteButton;
     private JButton newRoundButton;
+    private JButton exitButton;
 
     // after-round stats
     private JLabel wordsPerMinute;
@@ -58,8 +68,9 @@ public class EndUI extends UIElement {
     private GridBagConstraints viewPhraseButtonConstraints;
     private GridBagConstraints saveButtonConstraints;
     private GridBagConstraints loadButtonConstraints;
-    private GridBagConstraints exitButtonConstraints;
+    private GridBagConstraints addCustomQuoteButtonContraints;
     private GridBagConstraints newRoundButtonConstraints;
+    private GridBagConstraints exitButtonConstraints;
 
     // EFFECTS: initializes the typingGame, the current round, and all the user information. Also sets the layout
     //          of this, initializes the buttons as well as their layouts, and adds an image to the window.
@@ -159,8 +170,9 @@ public class EndUI extends UIElement {
         setGridBagConstraintsGridPosition(viewPhraseButtonConstraints, 0, 5);
         setGridBagConstraintsGridPosition(saveButtonConstraints, 0, 6);
         setGridBagConstraintsGridPosition(loadButtonConstraints, 0, 7);
-        setGridBagConstraintsGridPosition(newRoundButtonConstraints, 0, 8);
-        setGridBagConstraintsGridPosition(exitButtonConstraints, 0, 9);
+        setGridBagConstraintsGridPosition(addCustomQuoteButtonContraints, 0, 8);
+        setGridBagConstraintsGridPosition(newRoundButtonConstraints, 0, 9);
+        setGridBagConstraintsGridPosition(exitButtonConstraints, 0, 10);
 
         wordsPerMinuteConstraints.gridwidth = 2;
         accuracyConstraints.gridwidth = 2;
@@ -176,8 +188,9 @@ public class EndUI extends UIElement {
         setGridBagConstraintInsets(viewPhraseButtonConstraints, 0, 20, 0, 0);
         setGridBagConstraintInsets(saveButtonConstraints, 0, 20, 0, 0);
         setGridBagConstraintInsets(loadButtonConstraints, 0, 20, 0, 0);
-        setGridBagConstraintInsets(exitButtonConstraints, 0, 20, 0, 0);
+        setGridBagConstraintInsets(addCustomQuoteButtonContraints, 0, 20, 0, 0);
         setGridBagConstraintInsets(newRoundButtonConstraints, 0, 20, 0, 0);
+        setGridBagConstraintInsets(exitButtonConstraints, 0, 20, 0, 0);
 
         wordsPerMinuteConstraints.weightx = 1;
         wordsPerMinuteConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -187,8 +200,9 @@ public class EndUI extends UIElement {
         viewPhraseButtonConstraints.anchor = GridBagConstraints.WEST;
         saveButtonConstraints.anchor = GridBagConstraints.WEST;
         loadButtonConstraints.anchor = GridBagConstraints.WEST;
-        exitButtonConstraints.anchor = GridBagConstraints.WEST;
+        addCustomQuoteButtonContraints.anchor = GridBagConstraints.WEST;
         newRoundButtonConstraints.anchor = GridBagConstraints.WEST;
+        exitButtonConstraints.anchor = GridBagConstraints.WEST;
 
         addElementsToIconContainer();
 
@@ -206,8 +220,9 @@ public class EndUI extends UIElement {
         viewPhraseButtonConstraints = new GridBagConstraints();
         saveButtonConstraints = new GridBagConstraints();
         loadButtonConstraints = new GridBagConstraints();
-        exitButtonConstraints = new GridBagConstraints();
+        addCustomQuoteButtonContraints = new GridBagConstraints();
         newRoundButtonConstraints = new GridBagConstraints();
+        exitButtonConstraints = new GridBagConstraints();
     }
 
     // EFFECTS: adds all the elements needing to be displayed to iconContainer with their respective constraints
@@ -220,8 +235,9 @@ public class EndUI extends UIElement {
         iconContainer.add(viewPhraseButton, viewPhraseButtonConstraints);
         iconContainer.add(saveButton, saveButtonConstraints);
         iconContainer.add(loadButton, loadButtonConstraints);
-        iconContainer.add(exitButton, exitButtonConstraints);
+        iconContainer.add(addCustomQuoteButton, addCustomQuoteButtonContraints);
         iconContainer.add(newRoundButton, newRoundButtonConstraints);
+        iconContainer.add(exitButton, exitButtonConstraints);
     }
 
     // EFFECTS: creates new Insets for gbc
@@ -278,14 +294,16 @@ public class EndUI extends UIElement {
         viewPhraseButton = new JButton("View");
         saveButton = new JButton("Download saved phrases");
         loadButton = new JButton("Load saved phrases");
-        exitButton = new JButton("Quit");
+        addCustomQuoteButton = new JButton("Add custom phrase");
         newRoundButton = new JButton("New round");
+        exitButton = new JButton("Quit");
 
         addPhraseButton.setForeground(Color.WHITE);
         removePhraseButton.setForeground(Color.WHITE);
         viewPhraseButton.setForeground(Color.WHITE);
         saveButton.setForeground(Color.WHITE);
         loadButton.setForeground(Color.WHITE);
+        addCustomQuoteButton.setForeground(Color.WHITE);
         exitButton.setForeground(Color.WHITE);
         newRoundButton.setForeground(Color.WHITE);
 
@@ -294,22 +312,25 @@ public class EndUI extends UIElement {
         viewPhraseButton.setFont(addPhraseButton.getFont().deriveFont(30.0f));
         saveButton.setFont(addPhraseButton.getFont().deriveFont(30.0f));
         loadButton.setFont(addPhraseButton.getFont().deriveFont(30.0f));
-        exitButton.setFont(addPhraseButton.getFont().deriveFont(30.0f));
+        addCustomQuoteButton.setFont(addCustomQuoteButton.getFont().deriveFont(30.0f));
         newRoundButton.setFont(addPhraseButton.getFont().deriveFont(30.0f));
+        exitButton.setFont(addPhraseButton.getFont().deriveFont(30.0f));
 
         addPhraseButtonLogic();
         removePhraseButtonLogic();
         viewPhraseButtonLogic();
         saveButtonLogic();
         loadButtonLogic();
-        exitButtonLogic();
+        addCustomQuoteButtonLogic();
         newRoundButtonLogic();
+        exitButtonLogic();
 
         initButtonHoverEffects(addPhraseButton);
         initButtonHoverEffects(removePhraseButton);
         initButtonHoverEffects(viewPhraseButton);
         initButtonHoverEffects(saveButton);
         initButtonHoverEffects(loadButton);
+        initButtonHoverEffects(addCustomQuoteButton);
         initButtonHoverEffects(exitButton);
         initButtonHoverEffects(newRoundButton);
     }
@@ -337,13 +358,17 @@ public class EndUI extends UIElement {
         loadButton.setBorderPainted(false);
         loadButton.setFocusPainted(false);
 
-        exitButton.setContentAreaFilled(false);
-        exitButton.setBorderPainted(false);
-        exitButton.setFocusPainted(false);
+        addCustomQuoteButton.setContentAreaFilled(false);
+        addCustomQuoteButton.setBorderPainted(false);
+        addCustomQuoteButton.setFocusPainted(false);
 
         newRoundButton.setContentAreaFilled(false);
         newRoundButton.setBorderPainted(false);
         newRoundButton.setFocusPainted(false);
+
+        exitButton.setContentAreaFilled(false);
+        exitButton.setBorderPainted(false);
+        exitButton.setFocusPainted(false);
     }
 
     // MODIFIES: this
@@ -400,6 +425,24 @@ public class EndUI extends UIElement {
             public void actionPerformed(ActionEvent e) {
                 getTypingGame().loadUserInfo();
                 savedPhrases.setText(typingGame.getUserInfo().getSavedPhrasesToView());
+            }
+        });
+    }
+
+    // MODIFIES: this
+    // EFFECTS: prompts the user to input their own quote to add to the pool quotes for the game
+    public void addCustomQuoteButtonLogic() {
+        addCustomQuoteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Path path = Paths.get("./data/phrases.txt");
+                String customQuote = JOptionPane.showInputDialog("Input custom quote: ");
+                try {
+                    Files.writeString(path, customQuote + "\n", StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+                } catch (IOException ioe) {
+                    System.out.println("Something went wrong when trying to add custom quote. ");
+                    ioe.printStackTrace();
+                }
             }
         });
     }
