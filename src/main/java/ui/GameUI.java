@@ -1,7 +1,6 @@
 package ui;
 
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -15,14 +14,11 @@ import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import model.Round;
 import model.UserInfo;
-
-// TODO: make the timer only start when input is detected from user.
 
 public class GameUI extends UIElement {
     private Round currentRound;
@@ -40,63 +36,62 @@ public class GameUI extends UIElement {
 
     private JTextField userInput;
     private JPanel userInputContainer;
-    private GridBagConstraints userInputContainerConstraints;
 
     public GameUI(TypingGame typingGame, Round currentRound, UserInfo userInfo, GameWindow gameWindow) {
         super(typingGame, currentRound, userInfo);
-        isEndUICreated = false;
-        userInputtedSomething = false;
         this.currentRound = currentRound;
         this.gameWindow = gameWindow;
+        isEndUICreated = false;
+        userInputtedSomething = false;
         setLayout(new BorderLayout());
-        this.actualText = new JTextArea(5, 80);
-        this.actualText.setText(currentRound.getActualText().toString());
         displayActualText();
         displayUserInput();
         userInputAction();
-        detectUserInput();
+        focusUserInput();
+        detectUserInputChange();
         initBackgroundImage();
     }
 
+    // EFFECTS: calls regular paintComponent method and also draws the background image.
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(backgroundImage.getImage(), 0, 0, getWidth(), getHeight(), this);
     }
 
+    // MODIFIES: this
+    // EFFECTS: initializes the background image of this panel.
     public void initBackgroundImage() {
         backgroundImage = new ImageIcon("./data/background3.gif");
     }
 
-    public void detectUserInput() {
+    // MODIFIES: this
+    // EFFECTS: detects changes in the user input so program knows when to start timer.
+    public void detectUserInputChange() {
         userInput.getDocument().addDocumentListener(new DocumentListener() {
             public void changedUpdate(DocumentEvent e) {
-                if (!userInputtedSomething) {
-                    System.out.println(userInputtedSomething + "1");
-                    userInputtedSomething = true;
-                    currentRound.startRoundTime();
-                    System.out.println(userInputtedSomething + "2");
-                }
+                startRoundTimer();
             }
             public void removeUpdate(DocumentEvent e) {
-                if (!userInputtedSomething) {
-                    System.out.println(userInputtedSomething + "3");
-                    userInputtedSomething = true;
-                    currentRound.startRoundTime();
-                    System.out.println(userInputtedSomething + "4");
-                }
+                startRoundTimer();
             }
             public void insertUpdate(DocumentEvent e) {
-                if (!userInputtedSomething) {
-                    System.out.println(userInputtedSomething + "5");
-                    userInputtedSomething = true;
-                    currentRound.startRoundTime();
-                    System.out.println(userInputtedSomething + "6");
-                }
+                startRoundTimer();
             }
         });
     }
 
+    // MODIFIES: this
+    // EFFECTS: helper method for detectUserInputChange(), used to start the timer and keep track of userInputtedSomething state.
+    public void startRoundTimer() {
+        if (!userInputtedSomething) {
+            userInputtedSomething = true;
+            currentRound.startRoundTime();
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: sets userInputtedSomething to false (used to make sure we're only detecing user input when needed)
     public void resetUserInputtedSomething() {
         userInputtedSomething = false;
     }
@@ -104,6 +99,9 @@ public class GameUI extends UIElement {
     // MODIFIES: this
     // EFFECTS: handles everything related to displaying the actual text properly
     public void displayActualText() {
+        actualText = new JTextArea(5, 80);
+        actualText.setText(currentRound.getActualText().toString());
+
         actualText.setEditable(false);
         actualText.setWrapStyleWord(true);
         actualText.setLineWrap(true);
@@ -114,14 +112,19 @@ public class GameUI extends UIElement {
         actualTextContainer = new JPanel(new GridBagLayout());
         actualTextContainer.add(this.actualText);
         actualTextContainer.setOpaque(false);
+
         add(this.actualTextContainer);
     }
 
+    // MODIFIES: this
+    // EFFECTS: handles everythign related to displaying the user input area properly
     public void displayUserInput() {
-        userInputContainerConstraints = new GridBagConstraints();
+        GridBagConstraints userInputContainerConstraints = new GridBagConstraints();
         userInput = new JTextField(80);
+
         userInput.setOpaque(false);
         userInput.setForeground(Color.WHITE);
+
         userInputContainer = new JPanel(new GridBagLayout());
         userInputContainer.setOpaque(false);
 
@@ -130,7 +133,6 @@ public class GameUI extends UIElement {
         userInputContainer.add(userInput, userInputContainerConstraints);
 
         add(userInputContainer, BorderLayout.SOUTH);
-        focusUserInput();
     }
 
     // MODIFIES: this
@@ -161,15 +163,6 @@ public class GameUI extends UIElement {
     // EFFECTS: changes the actual text displayed in the game
     public void updateActualTextDisplay(String text) {
         this.actualText.setText(text);
-    }
-
-    // TODO: might not get used
-    // MODIFIES: this
-    // EFFECTS: changes the size of the user input area
-    public void updateUserInputArea() {
-        //userInput.setColumns(currentRound.getActualText().toString().length());
-        userInput.setColumns(60);
-
     }
 
     // MODIFIES: this

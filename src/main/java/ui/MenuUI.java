@@ -23,7 +23,6 @@ import model.UserInfo;
 // The MenuUI class represents the menu screen of the typing game.
 public class MenuUI extends UIElement {
     private JTextArea title;
-    private GridBagConstraints titleConstraints;
 
     private boolean isGameUICreated;
 
@@ -33,9 +32,7 @@ public class MenuUI extends UIElement {
     private ImageIcon backgroundImage;
 
     private JButton startButton;
-    private GridBagConstraints startButtonConstraints;
     private JButton exitButton;
-    private GridBagConstraints exitButtonConstraints;
 
     private JPanel elementContainer;
 
@@ -48,7 +45,7 @@ public class MenuUI extends UIElement {
         setLayout(new BorderLayout());
         initButtons();
         setTitle();
-        layoutElements();
+        displayElements();
         initBackground();
     }
 
@@ -56,7 +53,6 @@ public class MenuUI extends UIElement {
     // EFFECTS: sets the background image and makes sure nothing else is interfering with it
     public void initBackground() {
         backgroundImage = new ImageIcon("./data/background.gif");
-
         elementContainer.setOpaque(false);
     }
 
@@ -126,12 +122,13 @@ public class MenuUI extends UIElement {
     }
 
     
-
-    public void layoutElements() {
+    // MODIFIES: this
+    // EFFECTS: handles the layout of the elements and then displays them on the screen.
+    public void displayElements() {
+        GridBagConstraints titleConstraints = new GridBagConstraints();
+        GridBagConstraints startButtonConstraints = new GridBagConstraints();
+        GridBagConstraints exitButtonConstraints =  new GridBagConstraints();
         elementContainer = new JPanel(new GridBagLayout());
-        titleConstraints = new GridBagConstraints();
-        startButtonConstraints = new GridBagConstraints();
-        exitButtonConstraints = new GridBagConstraints();
 
         titleConstraints.gridx = 0;
         titleConstraints.gridy = 0;
