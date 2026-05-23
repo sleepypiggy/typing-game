@@ -24,7 +24,7 @@ import java.nio.file.StandardOpenOption;
 
 import javax.swing.*;
 
-// TODO more functinality:
+// TODO more functionality:
 // - remove quotes from the quote pool
 // - add music and sfx
 
@@ -486,7 +486,8 @@ public class EndUI extends UIElement {
 
     // EFFECTS: displays the actual text, and the user-typed text in a pop-up window.
     public void showCurrentRoundActualAndUserPhrase() {
-        String displayedPhrases = "Actual: " + currentRound.getActualText() + "\n User: " + currentRound.getUserText();
+        String displayedPhrases = "Actual: " + currentRound.getActualText() + "\n User: " + currentRound.getUserText() + "\n"
+        + "Correct keystrokes: " + currentRound.getNumberOfCorrectKeystrokes() + "\n" + "Incorrect keystrokes: " + currentRound.getNumberOfIncorrectKeystrokes();
         JOptionPane.showMessageDialog(this, displayedPhrases, "Saved Phrases", JOptionPane.INFORMATION_MESSAGE);
     }
 }

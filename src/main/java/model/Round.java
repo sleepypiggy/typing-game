@@ -7,6 +7,14 @@ import java.util.Random;
 
 import java.text.DecimalFormat;
 
+// TODO post-round stats:
+// - correct vs. incorrect keystrokes
+// - most missed letters
+// - first mistake made
+// - longest streak 
+// - make new method that specifically calculates correct and incorrect keystrokes
+// - and make calculateAccuracy method just use those two numbers to calculate
+
 
 // The Round class represents a single round in the typing game.
 // A new Round is created each time the user wants to "play a new game",
@@ -33,6 +41,8 @@ public class Round {
     private double timeTaken;
     private int numberOfCharacters;
     private int numberOfUserTypedCharacters;
+    private int correctKeystrokes;
+    private int incorrectKeystrokes;
 
     
     // EFFECTS: initializes all things a round needs, and then runs the methods needed to 
@@ -100,6 +110,7 @@ public class Round {
     //          versus the actual phrase and sets it as accuracy.
     public void calculateAccuracy(StringBuilder actualText, StringBuilder userText) {
         double wrong = 0.0;
+        int correct = 0;
 
         while (userText.length() < actualText.length()) {
             userText.append("⨘");
@@ -112,11 +123,15 @@ public class Round {
         for (int i = 0; i < actualText.length(); i++) {
             if (userText.charAt(i) != actualText.charAt(i)) {
                 wrong++;
+            } else {
+                correct++;
             }
         }
         double percentageWrong = wrong / actualText.length() * 100.0;
         double accuracy = 100.0 - percentageWrong;
         this.accuracy = Double.valueOf(decimalFormat.format(accuracy));
+        this.incorrectKeystrokes = (int) wrong;
+        this.correctKeystrokes = correct;
     }
 
     // REQUIRES: numberOfCharacters > 0 && this.timeTaken > 0;
@@ -162,6 +177,14 @@ public class Round {
         this.accuracy = 0;
         this.timeTaken = 0;
         this.userText = null;
+    }
+
+    public int getNumberOfCorrectKeystrokes() {
+        return this.correctKeystrokes;
+    }
+
+    public int getNumberOfIncorrectKeystrokes() {
+        return this.incorrectKeystrokes;
     }
 
     public StringBuilder getActualText() {
