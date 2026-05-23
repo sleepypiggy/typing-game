@@ -3,6 +3,7 @@ package ui;
 import model.Round;
 import model.UserInfo;
 import model.exception.LogException;
+import model.AudioPlayer;
 import model.Event;
 import model.EventLog;
 
@@ -60,17 +61,9 @@ public class EndUI extends UIElement {
     private GridBagConstraints savedPhrasesConstraints;
 
     private JPanel iconContainer;
-    private GridBagConstraints wordsPerMinuteConstraints;
-    private GridBagConstraints accuracyConstraints;
-    private GridBagConstraints timeTakenConstraints;
-    private GridBagConstraints addPhraseButtonConstraints;
-    private GridBagConstraints removePhraseButtonConstraints;
-    private GridBagConstraints viewPhraseButtonConstraints;
-    private GridBagConstraints saveButtonConstraints;
-    private GridBagConstraints loadButtonConstraints;
-    private GridBagConstraints addCustomQuoteButtonContraints;
-    private GridBagConstraints newRoundButtonConstraints;
-    private GridBagConstraints exitButtonConstraints;
+
+    private AudioPlayer buttonClickSfx;
+
 
     // EFFECTS: initializes the typingGame, the current round, and all the user information. Also sets the layout
     //          of this, initializes the buttons as well as their layouts, and adds an image to the window.
@@ -80,6 +73,7 @@ public class EndUI extends UIElement {
         this.currentRound = currentRound;
         this.userInfo = userInfo;
         this.typingGame = typingGame;
+        initAudio();
         setLayout(new BorderLayout());
         initButtons();
         hideOriginalButtonBackground();
@@ -87,6 +81,10 @@ public class EndUI extends UIElement {
         displayImageIcons();
         initListOfSavedPhrases();
         initBackground();
+    }
+
+    public void initAudio() {
+        this.buttonClickSfx = new AudioPlayer("./data/buttonClick.wav", false);
     }
 
     // TODO: probably best to move the setOpaque(false) to their respective init methods
@@ -159,8 +157,19 @@ public class EndUI extends UIElement {
     }
 
     public void displayImageIcons() {
+        GridBagConstraints wordsPerMinuteConstraints = new GridBagConstraints();
+        GridBagConstraints accuracyConstraints = new GridBagConstraints();
+        GridBagConstraints timeTakenConstraints = new GridBagConstraints();
+        GridBagConstraints addPhraseButtonConstraints = new GridBagConstraints();
+        GridBagConstraints removePhraseButtonConstraints = new GridBagConstraints();
+        GridBagConstraints viewPhraseButtonConstraints = new GridBagConstraints();
+        GridBagConstraints saveButtonConstraints = new GridBagConstraints();
+        GridBagConstraints loadButtonConstraints = new GridBagConstraints();
+        GridBagConstraints addCustomQuoteButtonContraints = new GridBagConstraints();
+        GridBagConstraints newRoundButtonConstraints = new GridBagConstraints();
+        GridBagConstraints exitButtonConstraints = new GridBagConstraints();
+
         iconContainer = new JPanel(new GridBagLayout());
-        initGridBagConstraints();
 
         setGridBagConstraintsGridPosition(wordsPerMinuteConstraints, 0, 0);
         setGridBagConstraintsGridPosition(accuracyConstraints, 0, 1);
@@ -204,29 +213,6 @@ public class EndUI extends UIElement {
         newRoundButtonConstraints.anchor = GridBagConstraints.WEST;
         exitButtonConstraints.anchor = GridBagConstraints.WEST;
 
-        addElementsToIconContainer();
-
-        add(iconContainer, BorderLayout.WEST);
-    }
-
-    // MODIFIES: this
-    // EFFECTS: initializes the GridBagConstraints for each element
-    public void initGridBagConstraints() {
-        wordsPerMinuteConstraints = new GridBagConstraints();
-        accuracyConstraints = new GridBagConstraints();
-        timeTakenConstraints = new GridBagConstraints();
-        addPhraseButtonConstraints = new GridBagConstraints();
-        removePhraseButtonConstraints = new GridBagConstraints();
-        viewPhraseButtonConstraints = new GridBagConstraints();
-        saveButtonConstraints = new GridBagConstraints();
-        loadButtonConstraints = new GridBagConstraints();
-        addCustomQuoteButtonContraints = new GridBagConstraints();
-        newRoundButtonConstraints = new GridBagConstraints();
-        exitButtonConstraints = new GridBagConstraints();
-    }
-
-    // EFFECTS: adds all the elements needing to be displayed to iconContainer with their respective constraints
-    public void addElementsToIconContainer() {
         iconContainer.add(wordsPerMinute, wordsPerMinuteConstraints);
         iconContainer.add(accuracy, accuracyConstraints);
         iconContainer.add(timeTaken, timeTakenConstraints);
@@ -238,6 +224,8 @@ public class EndUI extends UIElement {
         iconContainer.add(addCustomQuoteButton, addCustomQuoteButtonContraints);
         iconContainer.add(newRoundButton, newRoundButtonConstraints);
         iconContainer.add(exitButton, exitButtonConstraints);
+
+        add(iconContainer, BorderLayout.WEST);
     }
 
     // EFFECTS: creates new Insets for gbc
@@ -377,6 +365,7 @@ public class EndUI extends UIElement {
         addPhraseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                buttonClickSfx.playAudio();
                 getTypingGame().savePhrase();
                 savedPhrases.setText(typingGame.getUserInfo().getSavedPhrasesToView());
             }
@@ -389,6 +378,7 @@ public class EndUI extends UIElement {
         removePhraseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                buttonClickSfx.playAudio();
                 getTypingGame().getUserInfo().removeSavedPhraseUIVersion();
                 savedPhrases.setText(typingGame.getUserInfo().getSavedPhrasesToView());
             }
@@ -401,6 +391,7 @@ public class EndUI extends UIElement {
         viewPhraseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                buttonClickSfx.playAudio();
                 showCurrentRoundActualAndUserPhrase();
             }
         });
@@ -412,6 +403,7 @@ public class EndUI extends UIElement {
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                buttonClickSfx.playAudio();
                 getTypingGame().saveUserInfo();
             }
         });
@@ -423,6 +415,7 @@ public class EndUI extends UIElement {
         loadButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                buttonClickSfx.playAudio();
                 getTypingGame().loadUserInfo();
                 savedPhrases.setText(typingGame.getUserInfo().getSavedPhrasesToView());
             }
@@ -435,6 +428,8 @@ public class EndUI extends UIElement {
         addCustomQuoteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                buttonClickSfx.playAudio();
+
                 Path path = Paths.get("./data/phrases.txt");
                 String customQuote = JOptionPane.showInputDialog("Input custom quote: ");
                 try {
@@ -453,6 +448,8 @@ public class EndUI extends UIElement {
         exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                buttonClickSfx.playAudio();
+
                 LogPrinter lp;
                 lp = new ConsolePrinter();
                 try {
@@ -472,6 +469,8 @@ public class EndUI extends UIElement {
         newRoundButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                buttonClickSfx.playAudio();
+
                 EventLog.getInstance().logEvent(new Event("New round started. "));
                 currentRound.setRandomLineIndex(currentRound.getNumberOfLines());
                 currentRound.newRound(currentRound.getRandomLineIndex());

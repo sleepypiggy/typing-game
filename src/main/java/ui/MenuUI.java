@@ -17,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import model.AudioPlayer;
 import model.Round;
 import model.UserInfo;
 
@@ -36,9 +37,13 @@ public class MenuUI extends UIElement {
 
     private JPanel elementContainer;
 
+    private AudioPlayer buttonClickSfx;
+    private AudioPlayer menuMusic;
+
     // EFFECTS: initializes all the components needed for the menu to run properly.
     public MenuUI(TypingGame typingGame, Round currentRound, UserInfo userInfo, GameWindow gamewindow) {
         super(typingGame, currentRound, userInfo);
+        initAudio();
         isGameUICreated = false;
         this.gameWindow = gamewindow;
         this.currentRound = currentRound;
@@ -47,6 +52,12 @@ public class MenuUI extends UIElement {
         setTitle();
         displayElements();
         initBackground();
+    }
+
+    public void initAudio() {
+        this.buttonClickSfx = new AudioPlayer("./data/buttonClick.wav", false);
+        this.menuMusic = new AudioPlayer("./data/backgroundMusic.wav", true);
+        this.menuMusic.playAudio();
     }
 
     // MODIFIES: this
@@ -158,7 +169,7 @@ public class MenuUI extends UIElement {
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // gameWindow.switchToGameUI();
+                buttonClickSfx.playAudio();
                 if (!isGameUICreated) {
                     gameWindow.createGameUI();
                     isGameUICreated = true;
@@ -175,6 +186,7 @@ public class MenuUI extends UIElement {
         exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                buttonClickSfx.playAudio();
                 System.exit(0);
             }
         });

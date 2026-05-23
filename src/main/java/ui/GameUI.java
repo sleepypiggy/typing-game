@@ -17,6 +17,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import model.AudioPlayer;
 import model.Round;
 import model.UserInfo;
 
@@ -37,6 +38,8 @@ public class GameUI extends UIElement {
     private JTextField userInput;
     private JPanel userInputContainer;
 
+    private AudioPlayer userInputEnterSfx;
+
     public GameUI(TypingGame typingGame, Round currentRound, UserInfo userInfo, GameWindow gameWindow) {
         super(typingGame, currentRound, userInfo);
         this.currentRound = currentRound;
@@ -44,12 +47,17 @@ public class GameUI extends UIElement {
         isEndUICreated = false;
         userInputtedSomething = false;
         setLayout(new BorderLayout());
+        initAudio();
         displayActualText();
         displayUserInput();
         userInputAction();
         focusUserInput();
         detectUserInputChange();
         initBackgroundImage();
+    }
+
+    public void initAudio() {
+        this.userInputEnterSfx = new AudioPlayer("./data/userInputEnter.wav", false);
     }
 
     // EFFECTS: calls regular paintComponent method and also draws the background image.
@@ -142,6 +150,8 @@ public class GameUI extends UIElement {
         userInput.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                userInputEnterSfx.playAudio();
+
                 StringBuilder text = new StringBuilder(userInput.getText());
                 currentRound.setUserText(text);
                 currentRound.calculateAccuracy(new StringBuilder(actualText.getText()), text);

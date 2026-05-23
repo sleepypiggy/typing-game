@@ -8,7 +8,6 @@ import java.util.Random;
 import java.text.DecimalFormat;
 
 // TODO post-round stats:
-// - correct vs. incorrect keystrokes
 // - most missed letters
 // - first mistake made
 // - longest streak 
