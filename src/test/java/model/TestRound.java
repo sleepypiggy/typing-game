@@ -2,6 +2,7 @@ package model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -12,7 +13,7 @@ import java.util.Random;
 
 public class TestRound {
     private final int seed = 1;
-    private String testPhrases = "data/testPhrases.txt";
+    private String testPhrases = "./data/testPhrases.txt";
     private Round testRound;
     private Round testTimerRound;
     private RoundTimer realClock;
@@ -63,35 +64,40 @@ public class TestRound {
     @Test
     void testCalculateAccuracy100Percent() {
         testRound.setUserText(new StringBuilder("Index 5"));
-        testRound.calculateAccuracy(testRound.getActualText(), testRound.getUserText());
+        testRound.setCorrectAndIncorrectCharacters();
+        testRound.calculateAccuracy();
         assertEquals(100.00, testRound.getAccuracy());
     }
 
     @Test
     void testCalculateAccuracy0Percent() {
         testRound.setUserText(new StringBuilder("abcdefg"));
-        testRound.calculateAccuracy(testRound.getActualText(), testRound.getUserText());
+        testRound.setCorrectAndIncorrectCharacters();
+        testRound.calculateAccuracy();
         assertEquals(0.00, testRound.getAccuracy());
     }
     
     @Test
     void testCalculateAccuracyRandomPercent() {
         testRound.setUserText(new StringBuilder("Inaaa 4"));
-        testRound.calculateAccuracy(testRound.getActualText(), testRound.getUserText());
+        testRound.setCorrectAndIncorrectCharacters();
+        testRound.calculateAccuracy();
         assertEquals(42.86, testRound.getAccuracy());
     }
 
     @Test
     void testCalculateAccuracyUserTextLongerThanActualText() {
         testRound.setUserText(new StringBuilder("Index 5aaa"));
-        testRound.calculateAccuracy(testRound.getActualText(), testRound.getUserText());
+        testRound.setCorrectAndIncorrectCharacters();
+        testRound.calculateAccuracy();
         assertEquals(70.00, testRound.getAccuracy());
     }
 
     @Test
     void testCalculateAccuracyActualTextLongerThanUserText() {
         testRound.setUserText(new StringBuilder("Index"));
-        testRound.calculateAccuracy(testRound.getActualText(), testRound.getUserText());
+        testRound.setCorrectAndIncorrectCharacters();
+        testRound.calculateAccuracy();
         assertEquals(71.43, testRound.getAccuracy());
     }
 
@@ -134,5 +140,15 @@ public class TestRound {
         long first = realClock.nanotimeClock();
         long second = realClock.nanotimeClock();
         assertTrue(second > first);
+    }
+
+    // I don't even think this test works properly.
+    @Test
+    void testNewRound() {
+        assertEquals(5, testRound.getRandomLineIndex());
+        testRound.newRound(testRound.getRandomLineIndex());
+        assertEquals(5, testRound.getRandomLineIndex());
+        testRound.newRound(testRound.getRandomLineIndex());
+        assertEquals(5, testRound.getRandomLineIndex());
     }
 }

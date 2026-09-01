@@ -27,7 +27,6 @@ import javax.swing.*;
 
 // TODO more functionality:
 // - remove quotes from the quote pool
-// - add music and sfx
 
 // This class displays all the UI elements for anything that is on the end screen, including things like
 // the buttons, and the saved phrases (if the button to view saved phrases is clicked).

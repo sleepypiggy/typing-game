@@ -1,8 +1,5 @@
 package ui;
 
-// TODO: - add ways to remove phrases from favorites
-// TODO: - let user add custom quotes to .txt file.
-
 import java.util.Scanner;
 
 import java.io.FileNotFoundException;
@@ -186,7 +183,8 @@ public class TypingGame {
     public void afterRoundStats(StringBuilder userInput) {
         System.out.println("Time taken: " + round.getTimeTaken() + " seconds");
         round.setUserText(userInput);
-        round.calculateAccuracy(round.getActualText(), round.getUserText());
+        round.setCorrectAndIncorrectCharacters();
+        round.calculateAccuracy();
         System.out.println("Accuracy: " + round.getAccuracy() + "%");
         round.setNumberOfUserTypedCharacters(userInput);
         round.setWordsPerMinute();

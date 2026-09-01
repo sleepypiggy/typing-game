@@ -154,7 +154,8 @@ public class GameUI extends UIElement {
 
                 StringBuilder text = new StringBuilder(userInput.getText());
                 currentRound.setUserText(text);
-                currentRound.calculateAccuracy(new StringBuilder(actualText.getText()), text);
+                currentRound.setCorrectAndIncorrectCharacters();
+                currentRound.calculateAccuracy();
                 currentRound.setElapsedTime();
                 currentRound.setNumberOfUserTypedCharacters(text);
                 currentRound.setWordsPerMinute();

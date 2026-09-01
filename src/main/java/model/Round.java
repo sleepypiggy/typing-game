@@ -3,6 +3,7 @@ package model;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Random;
 
 import java.text.DecimalFormat;
@@ -40,8 +41,9 @@ public class Round {
     private double timeTaken;
     private int numberOfCharacters;
     private int numberOfUserTypedCharacters;
-    private int correctKeystrokes;
-    private int incorrectKeystrokes;
+    private double correctKeystrokes;
+    private double incorrectKeystrokes;
+    private HashMap<Character, Integer> missedCharacters;
 
     
     // EFFECTS: initializes all things a round needs, and then runs the methods needed to 
@@ -103,13 +105,10 @@ public class Round {
         this.numberOfUserTypedCharacters = userText.length();
     }
 
-    // REQURIES: actualText.length() > 0;
-    // MODIFIES: this
-    // EFFECTS: calculates the accuracy when comparing the user's typed phrase
-    //          versus the actual phrase and sets it as accuracy.
-    public void calculateAccuracy(StringBuilder actualText, StringBuilder userText) {
-        double wrong = 0.0;
-        int correct = 0;
+    public void setCorrectAndIncorrectCharacters() {
+        this.correctKeystrokes = 0;
+        this.incorrectKeystrokes = 0;
+        this.missedCharacters = new HashMap<>();
 
         while (userText.length() < actualText.length()) {
             userText.append("⨘");
@@ -121,16 +120,25 @@ public class Round {
 
         for (int i = 0; i < actualText.length(); i++) {
             if (userText.charAt(i) != actualText.charAt(i)) {
-                wrong++;
+                this.incorrectKeystrokes++;
+                if (!missedCharacters.containsKey(actualText.charAt(i))) {
+                    missedCharacters.put(actualText.charAt(i), 1);
+                } else {
+                    missedCharacters.put(actualText.charAt(i), missedCharacters.get(actualText.charAt(i)) + 1);
+                }
             } else {
-                correct++;
+                this.correctKeystrokes++;
             }
         }
-        double percentageWrong = wrong / actualText.length() * 100.0;
-        double accuracy = 100.0 - percentageWrong;
-        this.accuracy = Double.valueOf(decimalFormat.format(accuracy));
-        this.incorrectKeystrokes = (int) wrong;
-        this.correctKeystrokes = correct;
+    }
+
+    // REQURIES: actualText.length() > 0;
+    // MODIFIES: this
+    // EFFECTS: calculates the accuracy when comparing the user's typed phrase
+    //          versus the actual phrase and sets it as accuracy.
+    public void calculateAccuracy() {
+        this.accuracy = Double.valueOf(decimalFormat.format(this.correctKeystrokes / actualText.length() * 100));
+        System.out.println(missedCharacters);
     }
 
     // REQUIRES: numberOfCharacters > 0 && this.timeTaken > 0;
@@ -178,11 +186,11 @@ public class Round {
         this.userText = null;
     }
 
-    public int getNumberOfCorrectKeystrokes() {
+    public double getNumberOfCorrectKeystrokes() {
         return this.correctKeystrokes;
     }
 
-    public int getNumberOfIncorrectKeystrokes() {
+    public double getNumberOfIncorrectKeystrokes() {
         return this.incorrectKeystrokes;
     }
 
